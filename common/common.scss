@@ -634,9 +634,11 @@ button.ef-btn {
 
 // Off: the core "Welcome back" search banner (search lives in the header),
 // and core's category heading (logo + description), which the hall banner
-// and the hall page replace
+// and the hall page replace. Core shows the heading with two classes when a
+// category has a logo, so this needs at least as many to win.
 .welcome-banner,
-.category-heading {
+.category-heading,
+.category-heading.--has-logo {
   display: none;
 }
 
