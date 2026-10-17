@@ -96,8 +96,8 @@ $ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9
 
   // Game wordmarks (lobby doors, hall banners): a thin very dark red edge and
   // a black glow, so they stand off bright banner art
-  --ef-wordmark-edge: drop-shadow(0 0 1px #2a0507) drop-shadow(0 0 1px #2a0507)
-    drop-shadow(0 0 7px rgb(0, 0, 0, 0.9));
+  --ef-wordmark-edge: drop-shadow(0 0 1px rgb(42, 5, 7, 0.75))
+    drop-shadow(0 0 6px rgb(0, 0, 0, 0.5));
 
   // Crimson that lights up in orange, not in lighter red
   --ef-hot:
@@ -665,7 +665,7 @@ body.ef-hall-page #header-list-area {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  margin: 26px 0 24px;
+  margin: 26px 0 40px;
 
   &__mark {
     width: auto;
