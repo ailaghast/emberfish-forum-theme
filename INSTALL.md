@@ -14,6 +14,14 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 - **Posts:** classic author panel on the left on desktop, full date in the post's top bar, Staff tag.
 - Players who open /categories land on the lobby. Staff can still use it.
 
+## Two color palettes
+
+The theme comes with two palettes, and the one picked on the theme page (**Color palette** and **Dark color palette**, set both the same) is the look of the whole forum:
+- **Emberfish Ashen Gate**: warm near-black panels with bright gold frames (the original).
+- **Emberfish Slate**: cool slate-grey panels with duller gold frames (from how the forum looked under the Dark Reader extension).
+
+The theme takes its page, panel and frame colors from the palette (secondary = page, hover = lightest panel, highlight = frame gold), so a palette edit in Admin → Color palettes changes the theme too.
+
 ## Where a game's look comes from (secrecy)
 
 **The theme holds no game art and names no game.** Theme files and settings are sent to every visitor, so anything in them could reveal an unannounced game. Everything about a game lives on its **category** instead, and Discourse sends a category's data only to people allowed to see it.

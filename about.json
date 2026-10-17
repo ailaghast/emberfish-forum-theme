@@ -43,6 +43,20 @@
       "danger": "E0483A",
       "success": "7FBF4A",
       "love": "FF6B5B"
+    },
+    "Emberfish Slate": {
+      "primary": "EEE4CF",
+      "secondary": "181A1B",
+      "tertiary": "FF9A4F",
+      "quaternary": "ECD08E",
+      "header_background": "1E2021",
+      "header_primary": "EEE4CF",
+      "highlight": "7D6434",
+      "selected": "33302C",
+      "hover": "2A2D2F",
+      "danger": "E0483A",
+      "success": "7FBF4A",
+      "love": "FF6B5B"
     }
   }
 }
