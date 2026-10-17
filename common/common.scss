@@ -94,6 +94,11 @@ $ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9
   --ef-orange-2: #ffae5c;
   --ef-link: #ff9a4f;
 
+  // Game wordmarks (lobby doors, hall banners): a thin very dark red edge and
+  // a black glow, so they stand off bright banner art
+  --ef-wordmark-edge: drop-shadow(0 0 1px #2a0507) drop-shadow(0 0 1px #2a0507)
+    drop-shadow(0 0 7px rgb(0, 0, 0, 0.9));
+
   // Crimson that lights up in orange, not in lighter red
   --ef-hot:
     radial-gradient(
@@ -256,6 +261,17 @@ a:hover {
 
 h2.ef-bar {
   margin-top: 4px;
+}
+
+// The hall page sits in core's list area, where every h2 gets core's margins
+// (#list-area h2): they pushed the section titles down and the side panels'
+// bars in from their frames
+#list-area h2.ef-bar {
+  margin: 4px -6px 10px;
+}
+
+#list-area h2.ef-bar__title {
+  margin: 0;
 }
 
 .ef-section,
@@ -479,12 +495,6 @@ button.ef-btn {
     box-sizing: border-box;
   }
 
-  &__label {
-    @include ef-label(11px, 0.32em);
-    margin-right: 10px;
-    color: var(--ef-faint);
-  }
-
   &__link {
     display: flex;
     align-items: center;
@@ -585,7 +595,7 @@ button.ef-btn {
     display: block;
     width: min(460px, 70vw);
     height: auto;
-    filter: drop-shadow(0 12px 24px #000);
+    filter: var(--ef-wordmark-edge) drop-shadow(0 12px 24px #000);
   }
 
   &__name {
@@ -648,24 +658,29 @@ body.ef-hall-page #header-list-area {
 }
 
 // ---------- Lobby ----------
-.ef-welcome {
-  margin: 22px 0 18px;
-  text-align: center;
+// The crest over the doors: the ember mark between two gold lines that fade
+// outwards, each ending in a gem
+.ef-crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 26px 0 24px;
 
-  h1 {
-    margin: 0;
-    font-family: var(--ef-label);
-    font-size: 26px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: var(--ef-txt);
+  &__mark {
+    width: auto;
+    height: 46px;
+    filter: drop-shadow(0 0 12px rgb(255, 100, 40, 0.35));
   }
 
-  p {
-    margin: 4px 0 0;
-    font-size: 16px;
-    font-style: italic;
-    color: var(--ef-mut);
+  &__line {
+    width: min(220px, 22vw);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ef-frame));
+
+    &--right {
+      background: linear-gradient(90deg, var(--ef-frame), transparent);
+    }
   }
 }
 
@@ -721,7 +736,7 @@ body.ef-hall-page #header-list-area {
     max-width: 58%;
     max-height: 100px;
     transform: translateX(-50%);
-    filter: drop-shadow(0 10px 18px #000);
+    filter: var(--ef-wordmark-edge) drop-shadow(0 10px 18px #000);
   }
 
   &__name {
@@ -1963,10 +1978,6 @@ body.ef-hall-page #list-area {
 
   .ef-halls {
     overflow-x: auto;
-
-    &__label {
-      display: none;
-    }
 
     &__link {
       padding: 0 12px;

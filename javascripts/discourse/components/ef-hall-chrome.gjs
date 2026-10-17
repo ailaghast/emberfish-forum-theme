@@ -85,7 +85,6 @@ export default class EfHallChrome extends Component {
     {{#unless this.hidden}}
       <nav class="ef-halls" aria-label="Halls">
         <div class="ef-halls__inner">
-          <span class="ef-halls__label">Halls</span>
           <a
             href={{this.homeUrl}}
             class={{dConcatClass

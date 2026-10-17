@@ -13,16 +13,6 @@ nav_website_url:
   default: "https://emberfishgames.com"
   description: "Where the Website link in the top bar goes."
 
-lobby_title:
-  type: string
-  default: "The Emberfish Halls"
-  description: "Heading at the top of the lobby (the homepage)."
-
-lobby_subtitle:
-  type: string
-  default: "Pick a game to find its news, strategy and feedback."
-  description: "Line under the lobby heading. Leave empty to hide it."
-
 hall_details:
   type: list
   list_type: simple

@@ -8,7 +8,7 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 
 - **Header:** the Emberfish Games logo, then Forums · Rules · Website ↗.
 - **Halls bar:** Lobby · one tab per game hall · Support.
-- **Lobby (homepage):** "The Emberfish Halls", one door per game (art, logo, tagline, pitch, Enter the hall + store button) and the announcement bar. Nothing else: each hall's page has its own activity panels.
+- **Lobby (homepage):** a small Emberfish crest (no words), one door per game (art, logo, tagline, pitch, Enter the hall + store button) and the announcement bar. Nothing else: each hall's page has its own activity panels.
 - **Hall page** (`/c/<game>`): the game's banner with its buttons, the announcement bar, the tab row (Forums · Latest · New · Top · In · New Topic), the game's forums in sections (Official / Community / a section per DLC / Help us build it) with hero medallions, and Latest posts (this game only), Support, Forum stats and Share (the hall's link) on the right.
 - **Inside a game** (its forums and topics): a slim banner.
 - **Posts:** classic author panel on the left on desktop, full date in the post's top bar, Staff tag.
@@ -39,7 +39,6 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 | Setting | Default |
 |---|---|
 | `nav_rules_url`, `nav_website_url` | `/guidelines`, `https://emberfishgames.com` |
-| `lobby_title`, `lobby_subtitle` | "The Emberfish Halls", "Pick a game to find its news, strategy and feedback." |
 | `hall_details` | `slug;tagline;pitch;button;link;button 2;link 2`, one line per game. Hadean Tactics only |
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |

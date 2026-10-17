@@ -8,11 +8,12 @@ function cssUrl(url) {
   return `url("${String(url).replace(/["\\\n]/g, encodeURIComponent)}")`;
 }
 
-// The homepage: one "door" per game hall the visitor can see, then the
-// announcement bar. Latest posts, Support, Forum stats and Share live on
-// each hall's page, next to its forums.
+// The homepage: a small Emberfish crest, one "door" per game hall the
+// visitor can see, then the announcement bar. Latest posts, Support, Forum
+// stats and Share live on each hall's page, next to its forums.
 export default class EfLobby extends Component {
   @service currentUser;
+  @service siteSettings;
 
   constructor() {
     super(...arguments);
@@ -43,14 +44,19 @@ export default class EfLobby extends Component {
   }
 
   <template>
-    {{#if settings.lobby_title}}
-      <header class="ef-welcome">
-        <h1>{{settings.lobby_title}}</h1>
-        {{#if settings.lobby_subtitle}}
-          <p>{{settings.lobby_subtitle}}</p>
-        {{/if}}
-      </header>
-    {{/if}}
+    {{! The page's heading is for screen readers; the crest says it visually }}
+    <h1 class="sr-only">{{this.siteSettings.title}}</h1>
+    <div class="ef-crest" aria-hidden="true">
+      <span class="ef-crest__line"></span>
+      <span class="ef-gem"></span>
+      <img
+        class="ef-crest__mark"
+        src={{settings.theme_uploads.ef_mark}}
+        alt=""
+      />
+      <span class="ef-gem"></span>
+      <span class="ef-crest__line ef-crest__line--right"></span>
+    </div>
 
     {{#if this.noHalls}}
       <p class="ef-home-error">Emberfish theme (only staff see this): no game
