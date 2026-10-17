@@ -123,6 +123,7 @@ $ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9
     ),
     linear-gradient(180deg, #962425, #601215);
   --ef-hot-border: rgb(255, 170, 110, 0.5);
+  --ef-hot-text: #fff4e4;
   --ef-panel: linear-gradient(
     180deg,
     var(--ef-panel-1),
@@ -131,6 +132,33 @@ $ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9
   --ef-label: cinzel, "Times New Roman", serif;
   --font-family: "EB Garamond", georgia, serif;
   --heading-font-family: "EB Garamond", georgia, serif;
+}
+
+// With the Slate palette, buttons and active tabs get a softer ember glow and
+// warmer text (the palette comes from the forum seen through Dark Reader,
+// which dimmed them). Discourse names the palette's stylesheet after it, so
+// this follows the palette picked on the theme page.
+:root:has(link[href*="color_definitions_emberfish-slate_"]) {
+  --ef-hot:
+    radial-gradient(
+      130% 150% at 50% -35%,
+      rgb(250, 150, 80, 0.2) 0%,
+      rgb(232, 98, 44, 0.14) 34%,
+      rgb(190, 52, 34, 0.06) 62%,
+      rgb(150, 25, 28, 0) 82%
+    ),
+    linear-gradient(180deg, #8a2320, #631217);
+  --ef-hot-hover:
+    radial-gradient(
+      130% 160% at 50% -35%,
+      rgb(255, 165, 90, 0.42) 0%,
+      rgb(242, 108, 46, 0.32) 40%,
+      rgb(200, 58, 32, 0.15) 68%,
+      rgb(150, 25, 28, 0) 88%
+    ),
+    linear-gradient(180deg, #922724, #681419);
+  --ef-hot-border: rgb(255, 170, 110, 0.35);
+  --ef-hot-text: #ffe3ba;
 }
 
 // Faint warm light at the top of the page. Core's category background
@@ -324,7 +352,7 @@ h2.ef-bar {
   border: 1px solid var(--ef-hot-border);
   border-radius: 3px;
   background: var(--ef-hot);
-  color: #fff4e4;
+  color: var(--ef-hot-text);
   text-shadow: 0 1px 1px rgb(60, 0, 0, 0.6);
   box-shadow:
     inset 0 1px 0 rgb(255, 210, 160, 0.3),
@@ -332,7 +360,7 @@ h2.ef-bar {
     0 8px 18px -8px #000;
 
   .d-icon {
-    color: #fff4e4;
+    color: var(--ef-hot-text);
   }
 
   &:hover,
@@ -818,7 +846,7 @@ body.ef-hall-page #header-list-area {
     border: 1px solid var(--ef-hot-border);
     border-radius: 2px;
     background: var(--ef-hot);
-    color: #fff4e4;
+    color: var(--ef-hot-text);
     font-weight: 700;
   }
 
@@ -1609,7 +1637,7 @@ body.ef-hall-page #list-area {
       border: 1px solid var(--ef-hot-border);
       border-radius: 2px;
       background: var(--ef-hot);
-      color: #fff4e4;
+      color: var(--ef-hot-text);
       font-weight: 700;
     }
   }
