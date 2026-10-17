@@ -18,7 +18,7 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 
 The theme comes with two palettes, and the one picked on the theme page (**Color palette** and **Dark color palette**, set both the same) is the look of the whole forum:
 - **Emberfish Ashen Gate**: warm near-black panels with bright gold frames (the original).
-- **Emberfish Slate**: cool slate-grey panels with duller gold frames (from how the forum looked under the Dark Reader extension).
+- **Emberfish Slate**: cool slate-grey panels, duller gold frames and softer button glow (from how the forum looked under the Dark Reader extension). The buttons follow the palette by its stylesheet's name, so keep the palette's name as it is.
 
 The theme takes its page, panel and frame colors from the palette (secondary = page, hover = lightest panel, highlight = frame gold), so a palette edit in Admin → Color palettes changes the theme too.
 
