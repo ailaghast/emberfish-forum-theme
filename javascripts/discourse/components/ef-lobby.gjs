@@ -202,13 +202,13 @@ export default class EfLobby extends Component {
             {{/if}}
             <div class="ef-door__ctas">
               <a class="ef-btn ef-btn--hot" href={{door.url}}>Enter the hall</a>
-              {{#each door.buttons as |button|}}
+              {{#each door.buttons as |cta|}}
                 <a
                   class="ef-btn ef-btn--line"
-                  href={{button.url}}
+                  href={{cta.url}}
                   target="_blank"
                   rel="noopener noreferrer"
-                >{{button.label}}</a>
+                >{{cta.label}}</a>
               {{/each}}
             </div>
             <span class="ef-door__meta">{{door.metaText}}</span>
@@ -312,13 +312,13 @@ export default class EfLobby extends Component {
               <span class="ef-share__intro">Know someone who’d like our games?
                 Bring them along.</span>
               <div class="ef-share__grid">
-                {{#each this.shareLinks as |link|}}
+                {{#each this.shareLinks as |share|}}
                   <a
                     class="ef-share__net"
-                    href={{link.href}}
+                    href={{share.href}}
                     target="_blank"
                     rel="noopener noreferrer"
-                  >{{link.label}}</a>
+                  >{{share.label}}</a>
                 {{/each}}
               </div>
               <div class="ef-share__copy">

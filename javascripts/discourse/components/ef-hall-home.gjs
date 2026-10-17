@@ -81,14 +81,14 @@ class EfHallForums extends Component {
 
     <div class="ef-home__grid">
       <div class="ef-home__main">
-        {{#each this.sections as |section|}}
+        {{#each this.sections as |group|}}
           <section class="ef-section ef-frame">
             <div class="ef-bar ef-bar--forums">
               <h2 class="ef-bar__title">
-                {{#if section.url}}
-                  <a href={{section.url}}>{{section.name}}</a>
+                {{#if group.url}}
+                  <a href={{group.url}}>{{group.name}}</a>
                 {{else}}
-                  {{section.name}}
+                  {{group.name}}
                 {{/if}}
               </h2>
               <span class="ef-bar__col">Topics</span>
@@ -96,7 +96,7 @@ class EfHallForums extends Component {
               <span class="ef-bar__col ef-bar__col--latest">Latest</span>
             </div>
             <div class="ef-inner">
-              {{#each section.rows as |row|}}
+              {{#each group.rows as |row|}}
                 <div class="ef-forum">
                   <EfMedal @category={{row.category}} />
                   <div class="ef-forum__info">

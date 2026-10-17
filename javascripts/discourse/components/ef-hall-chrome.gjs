@@ -146,17 +146,17 @@ export default class EfHallChrome extends Component {
               {{/if}}
               {{#if this.hall.buttons.length}}
                 <div class="ef-hall-banner__ctas">
-                  {{#each this.hall.buttons as |button index|}}
+                  {{#each this.hall.buttons as |cta index|}}
                     <a
                       class={{if
                         index
                         "ef-btn ef-btn--line"
                         "ef-btn ef-btn--hot"
                       }}
-                      href={{button.url}}
+                      href={{cta.url}}
                       target="_blank"
                       rel="noopener noreferrer"
-                    >{{button.label}}</a>
+                    >{{cta.label}}</a>
                   {{/each}}
                 </div>
               {{/if}}
