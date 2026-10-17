@@ -1,0 +1,16 @@
+name: Discourse Theme
+
+# Runs on the staging branch only. main gets the same commits once they
+# have passed here, so running again there would only spend minutes.
+on:
+  push:
+    branches:
+      - staging
+    paths-ignore:
+      - "**.md"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: discourse/.github/.github/workflows/discourse-theme.yml@v1

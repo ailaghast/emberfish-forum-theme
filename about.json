@@ -1,0 +1,48 @@
+{
+  "name": "Emberfish Ashen Gate",
+  "about_url": "https://emberfishgames.com",
+  "license_url": null,
+  "component": false,
+  "authors": "Emberfish Games",
+  "theme_version": "1.0.0",
+  "modifiers": {
+    "custom_homepage": true,
+    "svg_icons": [
+      "house",
+      "circle-question",
+      "comment",
+      "comments",
+      "file-lines",
+      "user-group",
+      "reply",
+      "plus",
+      "xmark",
+      "pencil",
+      "chevron-right"
+    ]
+  },
+  "assets": {
+    "ef_logo": "assets/ef-logo.webp",
+    "ef_mark": "assets/ef-mark.webp",
+    "font_cinzel_latin": "assets/fonts/cinzel-latin-wght-normal.woff2",
+    "font_cinzel_latin_ext": "assets/fonts/cinzel-latin-ext-wght-normal.woff2",
+    "font_garamond_latin": "assets/fonts/eb-garamond-latin-wght-normal.woff2",
+    "font_garamond_italic_latin": "assets/fonts/eb-garamond-latin-wght-italic.woff2"
+  },
+  "color_schemes": {
+    "Emberfish Ashen Gate": {
+      "primary": "EEE4CF",
+      "secondary": "0D0C0E",
+      "tertiary": "FF9A4F",
+      "quaternary": "ECD08E",
+      "header_background": "0A090B",
+      "header_primary": "EEE4CF",
+      "highlight": "BFA064",
+      "selected": "2A1E1C",
+      "hover": "1C191C",
+      "danger": "E0483A",
+      "success": "7FBF4A",
+      "love": "FF6B5B"
+    }
+  }
+}

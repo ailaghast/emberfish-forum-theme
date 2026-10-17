@@ -1,0 +1,2229 @@
+// The Emberfish "Ashen Gate" theme
+// Warm charcoal panels in thin, slightly gold frames with gem corners,
+// crimson header bars and buttons that light up in ember orange. Cinzel for
+// letterspaced labels and headings, EB Garamond for text. Header, halls bar,
+// hall banner, announcement bar and browse panel, with a lobby homepage and
+// one hall per game.
+//
+// No game art lives in this theme: a hall's icon, wordmark, banner and its
+// forums' medallions are the categories' own Images (see INSTALL.md), so a
+// game whose category is hidden leaves nothing in the page.
+
+// Fonts are served from the forum itself (theme assets), not Google Fonts,
+// so visitors' IPs aren't sent to a third party. Licences: assets/fonts/OFL-*.
+// EB Garamond is drawn small for its size, so it's scaled up (size-adjust)
+// instead of raising Discourse's base size, which would enlarge every
+// button, menu and icon too.
+@font-face {
+  font-family: Cinzel;
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(#{$font_cinzel_latin_ext}) format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: Cinzel;
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(#{$font_cinzel_latin}) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  size-adjust: 112%;
+  src: url(#{$font_garamond_latin}) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  size-adjust: 112%;
+  src: url(#{$font_garamond_italic_latin}) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+// Gem corners: a hollow diamond with tapering lines along both edges, drawn
+// for the top-left corner and mirrored for the others. Used as masks, so
+// they take the frame's color.
+$ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9 9 12.5 5.5 9z'/%3E%3Cpath d='M16 8.2 29 9 16 9.8zM8.2 16 9 29 9.8 16z'/%3E";
+
+@function ef-corner($transform) {
+  @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cg transform='#{$transform}'%3E#{$ef-corner-svg}%3C/g%3E%3C/svg%3E");
+}
+
+:root {
+  --ef-page: #0d0c0e;
+  --ef-panel-1: #1c191c;
+  --ef-panel-2: #141215;
+  --ef-well: #0d0c0e;
+  --ef-bar-bg: #121013;
+  --ef-txt: #eee4cf;
+  --ef-txt-2: #d2c6ad;
+  --ef-mut: #a2998b;
+  --ef-faint: #6c645a;
+  --ef-frame: #bfa064;
+  --ef-frame-soft: rgb(191, 160, 100, 0.32);
+  --ef-frame-faint: rgb(191, 160, 100, 0.16);
+  --ef-frame-glow: rgb(210, 168, 92, 0.11);
+  --ef-accent: #ecd08e;
+  --ef-crimson: #861c1f;
+  --ef-crimson-d: #4f0e12;
+  --ef-orange: #ff7a2e;
+  --ef-orange-2: #ffae5c;
+  --ef-link: #ff9a4f;
+
+  // Crimson that lights up in orange, not in lighter red
+  --ef-hot:
+    radial-gradient(
+      130% 150% at 50% -35%,
+      rgb(250, 150, 80, 0.62) 0%,
+      rgb(232, 98, 44, 0.48) 34%,
+      rgb(190, 52, 34, 0.22) 62%,
+      rgb(150, 25, 28, 0) 82%
+    ),
+    linear-gradient(180deg, #8c2022, #5a1014);
+  --ef-hot-hover:
+    radial-gradient(
+      130% 160% at 50% -35%,
+      rgb(255, 165, 90, 0.8) 0%,
+      rgb(242, 108, 46, 0.62) 40%,
+      rgb(200, 58, 32, 0.3) 68%,
+      rgb(150, 25, 28, 0) 88%
+    ),
+    linear-gradient(180deg, #962425, #601215);
+  --ef-hot-border: rgb(255, 170, 110, 0.5);
+  --ef-panel: linear-gradient(
+    180deg,
+    var(--ef-panel-1),
+    var(--ef-panel-2) 160px
+  );
+  --ef-label: cinzel, "Times New Roman", serif;
+  --font-family: "EB Garamond", georgia, serif;
+  --heading-font-family: "EB Garamond", georgia, serif;
+}
+
+// Faint warm light at the top of the page. Core's category background
+// images are switched off: in this theme a category's Background image is
+// its hall banner, drawn by the theme.
+html {
+  background-color: var(--ef-page);
+  background-image: radial-gradient(
+    ellipse 60% 520px at 50% 0,
+    #1a1517,
+    transparent 70%
+  );
+  background-repeat: no-repeat;
+}
+
+body {
+  --d-max-width: #{$content_width}px;
+  background-color: transparent;
+  background-image: none !important;
+  font-family: var(--font-family);
+}
+
+a {
+  color: var(--ef-link);
+}
+
+a:hover {
+  color: var(--ef-orange-2);
+}
+
+// ---------- Shared building blocks ----------
+
+// Thin gold frame with an inner ring, and a gem on each corner
+@mixin ef-frame {
+  position: relative;
+  border: 1px solid var(--ef-frame);
+  border-radius: 0;
+  background: var(--ef-panel);
+  box-shadow:
+    inset 0 0 0 3px var(--ef-panel-2),
+    inset 0 0 0 4px var(--ef-frame-soft),
+    0 0 18px var(--ef-frame-glow),
+    0 24px 44px -22px #000;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    z-index: 3;
+    pointer-events: none;
+    background: var(--ef-frame);
+    mask:
+      ef-corner("") left top / 30px no-repeat,
+      ef-corner("translate(30 0) scale(-1 1)") right top / 30px no-repeat,
+      ef-corner("translate(0 30) scale(1 -1)") left bottom / 30px no-repeat,
+      ef-corner("translate(30 30) scale(-1 -1)") right bottom / 30px no-repeat;
+  }
+}
+
+// Crimson header bar, lit from the top-left corner
+@mixin ef-bar {
+  background:
+    radial-gradient(60% 160% at 0% 0%, rgb(255, 128, 48, 0.3), transparent 70%),
+    linear-gradient(180deg, #7e1a1d, var(--ef-crimson-d));
+  box-shadow:
+    inset 0 1px 0 rgb(255, 190, 140, 0.3),
+    inset 0 -1px 0 rgb(0, 0, 0, 0.5),
+    0 1px 0 var(--ef-frame-soft);
+  color: #fbefd8;
+}
+
+@mixin ef-label($size: 13px, $spacing: 0.16em) {
+  font-family: var(--ef-label);
+  font-size: $size;
+  font-weight: 600;
+  letter-spacing: $spacing;
+  text-transform: uppercase;
+}
+
+@mixin ef-well {
+  background: var(--ef-well);
+  border: 1px solid var(--ef-frame-soft);
+  border-radius: 3px;
+  box-shadow: inset 0 2px 10px rgb(0, 0, 0, 0.5);
+}
+
+.ef-frame {
+  @include ef-frame;
+}
+
+.ef-inner {
+  @include ef-well;
+}
+
+.ef-bar {
+  @include ef-bar;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  margin: 4px -6px 10px;
+  padding: 0 20px;
+
+  &__title {
+    margin: 0;
+    font-family: var(--ef-label);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #fbefd8;
+    text-shadow:
+      0 0 14px rgb(255, 150, 80, 0.35),
+      0 1px 0 #000;
+
+    // A DLC's section links to its own page
+    a,
+    a:visited {
+      color: inherit;
+    }
+
+    a:hover {
+      color: var(--ef-accent);
+    }
+  }
+
+  &__col {
+    @include ef-label(11px, 0.18em);
+    color: rgb(255, 225, 200, 0.75);
+    text-align: center;
+  }
+}
+
+h2.ef-bar {
+  margin-top: 4px;
+}
+
+.ef-section,
+.ef-side {
+  padding: 0 10px 10px;
+}
+
+.ef-side .ef-bar__title {
+  font-size: 17px;
+}
+
+.ef-gem {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  transform: rotate(45deg);
+  background: var(--ef-accent);
+  box-shadow: 0 0 8px var(--ef-accent);
+}
+
+.ef-tagline {
+  @include ef-label(12px, 0.26em);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ef-accent);
+  text-shadow: 0 1px 6px #000;
+}
+
+.ef-home-error {
+  margin: 0 0 22px;
+  padding: 14px 18px;
+  border: 1px solid rgb(224, 72, 58, 0.6);
+  background: rgb(224, 72, 58, 0.1);
+  color: #ffd2cf;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+// ---------- Buttons ----------
+// Crimson buttons with an ember-orange glow on top; outlined gold for the
+// second choice
+
+@mixin ef-hot {
+  border: 1px solid var(--ef-hot-border);
+  border-radius: 3px;
+  background: var(--ef-hot);
+  color: #fff4e4;
+  text-shadow: 0 1px 1px rgb(60, 0, 0, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgb(255, 210, 160, 0.3),
+    0 0 16px -6px rgb(255, 110, 40, 0.4),
+    0 8px 18px -8px #000;
+
+  .d-icon {
+    color: #fff4e4;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ef-hot-hover);
+    color: #fff;
+
+    .d-icon {
+      color: #fff;
+    }
+  }
+}
+
+@mixin ef-line {
+  border: 1px solid var(--ef-frame);
+  border-radius: 3px;
+  background: rgb(0, 0, 0, 0.3);
+  color: var(--ef-txt);
+
+  .d-icon {
+    color: var(--ef-txt);
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--ef-accent);
+    background: rgb(236, 208, 142, 0.08);
+    color: #fff;
+
+    .d-icon {
+      color: #fff;
+    }
+  }
+}
+
+.btn {
+  border-radius: 3px;
+}
+
+.btn-primary,
+.d-header .header-buttons .sign-up-button,
+.ef-btn--hot {
+  @include ef-hot;
+}
+
+.d-header .header-buttons .login-button,
+.ef-btn--line {
+  @include ef-line;
+}
+
+.d-header .header-buttons .btn,
+.ef-btn {
+  @include ef-label(13px, 0.14em);
+  height: 42px;
+  padding: 0 22px;
+}
+
+.ef-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button.ef-btn {
+  appearance: none;
+}
+
+// ---------- Header ----------
+.d-header {
+  height: 70px;
+  background: #0a090b;
+  box-shadow: 0 1px 0 var(--ef-frame-soft);
+}
+
+.d-header .title a {
+  display: flex;
+  align-items: center;
+}
+
+// The logo and the top links sit side by side
+.d-header .home-logo-wrapper-outlet {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.ef-brand {
+  display: flex;
+  align-items: center;
+
+  &__logo {
+    height: 46px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgb(255, 100, 40, 0.3));
+  }
+
+  &__mark {
+    height: 36px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgb(255, 100, 40, 0.3));
+  }
+}
+
+.ef-header-nav {
+  display: flex;
+  align-self: stretch;
+  flex-shrink: 0;
+  margin-left: 26px;
+
+  a {
+    @include ef-label(13px, 0.2em);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    color: var(--ef-mut);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ef-txt);
+    }
+
+    &.active {
+      color: var(--ef-txt);
+      box-shadow:
+        inset 0 -2px 0 var(--ef-orange),
+        inset 0 -14px 20px -16px rgb(255, 122, 46, 0.7);
+    }
+  }
+}
+
+.d-header .header-buttons {
+  gap: 12px;
+}
+
+.d-header .d-header-icons .icon {
+  color: var(--ef-mut);
+
+  &:hover .d-icon,
+  &:focus .d-icon {
+    color: var(--ef-txt);
+  }
+}
+
+// ---------- Halls bar ----------
+.ef-halls {
+  height: 54px;
+  background: var(--ef-bar-bg);
+  border-bottom: 1px solid #000;
+  box-shadow: inset 0 -1px 0 var(--ef-frame-soft);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    max-width: var(--d-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+
+  &__label {
+    @include ef-label(11px, 0.32em);
+    margin-right: 10px;
+    color: var(--ef-faint);
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-family: var(--ef-label);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--ef-txt-2);
+    text-decoration: none;
+    white-space: nowrap;
+
+    .d-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--ef-accent);
+    }
+
+    &:hover {
+      color: #fff;
+    }
+
+    &.active {
+      @include ef-hot;
+      border-color: rgb(255, 170, 110, 0.45);
+    }
+
+    &--support {
+      margin-left: auto;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--ef-frame-soft);
+    border-radius: 2px;
+
+    .active & {
+      border-color: rgb(255, 210, 160, 0.6);
+    }
+  }
+}
+
+// ---------- Hall banner ----------
+// The hall's banner art (its category's Background image), with the game's
+// wordmark (Dark logo image) on the left. Full height on the hall page, a
+// slim strip inside its forums and topics.
+.ef-hall-banner {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  background: #08070a var(--ef-banner) 50% 32% / cover no-repeat;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgb(8, 7, 10, 0.95) 0%,
+        rgb(8, 7, 10, 0.72) 26%,
+        rgb(8, 7, 10, 0) 50%,
+        rgb(8, 7, 10, 0) 82%,
+        rgb(8, 7, 10, 0.55) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgb(8, 7, 10, 0.35),
+        transparent 30%,
+        transparent 62%,
+        var(--ef-page)
+      );
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    height: 100%;
+    max-width: var(--d-max-width);
+    margin: 0 auto;
+    padding: 0 1rem 40px;
+    box-sizing: border-box;
+  }
+
+  &__logo {
+    display: block;
+    width: min(460px, 70vw);
+    height: auto;
+    filter: drop-shadow(0 12px 24px #000);
+  }
+
+  &__name {
+    font-family: var(--ef-label);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--ef-txt);
+    text-shadow: 0 6px 20px #000;
+  }
+
+  &__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &--slim {
+    height: 150px;
+    background-position: 50% 40%;
+
+    &::after {
+      background:
+        linear-gradient(
+          90deg,
+          rgb(8, 7, 10, 0.94) 0%,
+          rgb(8, 7, 10, 0.6) 38%,
+          rgb(8, 7, 10, 0.15) 65%,
+          rgb(8, 7, 10, 0.6) 100%
+        ),
+        linear-gradient(180deg, rgb(8, 7, 10, 0) 55%, var(--ef-page) 100%);
+    }
+
+    .ef-hall-banner__content {
+      padding-bottom: 0;
+    }
+
+    .ef-hall-banner__logo {
+      width: 240px;
+    }
+
+    .ef-hall-banner__name {
+      font-size: 30px;
+    }
+  }
+}
+
+// Off: the core "Welcome back" search banner (search lives in the header),
+// and core's category heading (logo + description), which the hall banner
+// and the hall page replace
+.welcome-banner,
+.category-heading {
+  display: none;
+}
+
+// The hall page lists its forums itself, so core's subcategory boxes go
+body.ef-hall-page #header-list-area {
+  display: none;
+}
+
+// ---------- Lobby ----------
+.ef-welcome {
+  margin: 22px 0 18px;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-family: var(--ef-label);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--ef-txt);
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ef-mut);
+  }
+}
+
+.ef-doors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  margin-bottom: 26px;
+
+  // One game: a single door, centered
+  &--1 {
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+  }
+
+  &--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ef-door {
+  display: flex;
+  flex-direction: column;
+
+  &__art {
+    position: relative;
+    display: block;
+    height: 190px;
+    margin: 4px 4px 0;
+    overflow: hidden;
+    background-color: #08070a;
+    background-position: 50% 35%;
+    background-size: cover;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgb(13, 12, 14, 0.1) 30%,
+        rgb(20, 18, 21, 0.96) 100%
+      );
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 10px;
+    width: auto;
+    max-width: 58%;
+    max-height: 100px;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 10px 18px #000);
+  }
+
+  &__name {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    font-family: var(--ef-label);
+    font-size: 34px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--ef-txt);
+    text-shadow: 0 4px 16px #000;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 22px 18px;
+    text-align: center;
+  }
+
+  &__pitch {
+    max-width: 500px;
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.35;
+    color: var(--ef-txt-2);
+  }
+
+  &__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  &__meta {
+    font-size: 14px;
+    color: var(--ef-mut);
+  }
+}
+
+// ---------- Announcement bar (core banner topic) ----------
+#banner {
+  @include ef-frame;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 26px;
+  padding: 14px 20px;
+  color: var(--ef-txt-2);
+  font-size: 16px;
+
+  &::before {
+    @include ef-label(11px, 0.2em);
+    content: "News";
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+    padding: 3px 12px;
+    border: 1px solid var(--ef-hot-border);
+    border-radius: 2px;
+    background: var(--ef-hot);
+    color: #fff4e4;
+    font-weight: 700;
+  }
+
+  #banner-content {
+    flex-grow: 1;
+    min-width: 0;
+
+    h1,
+    h2,
+    h3,
+    strong,
+    b {
+      margin: 0;
+      font-size: inherit;
+      font-weight: 600;
+      color: var(--ef-txt);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--ef-orange-2);
+    }
+  }
+
+  .floated-buttons {
+    order: 2;
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .floated-buttons .btn,
+  .close {
+    color: var(--ef-mut);
+
+    .d-icon {
+      color: var(--ef-mut);
+    }
+
+    &:hover .d-icon {
+      color: var(--ef-txt);
+    }
+  }
+}
+
+// Under a full hall banner, the bar tucks up into the art
+body.ef-hall-page #banner {
+  margin-top: -36px;
+}
+
+// ---------- Lobby and hall page layout ----------
+.ef-home {
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 26px;
+    align-items: start;
+  }
+
+  &__main,
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+  }
+}
+
+// The hall page sits inside core's list area
+body.ef-hall-page #list-area {
+  margin-bottom: 0;
+}
+
+.ef-bar--forums {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 70px 70px 250px;
+
+  .ef-bar__col--latest {
+    padding-left: 16px;
+    text-align: left;
+  }
+}
+
+.ef-forum {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 70px 70px 250px;
+  align-items: center;
+  min-height: 86px;
+  padding: 10px 14px;
+  transition: background-color 0.15s;
+
+  & + & {
+    border-top: 1px solid var(--ef-frame-soft);
+  }
+
+  &:hover {
+    background: rgb(255, 122, 46, 0.05);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-right: 14px;
+  }
+
+  &__name {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ef-txt);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ef-orange-2);
+    }
+  }
+
+  &__desc {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 14.5px;
+    line-height: 1.3;
+    color: var(--ef-mut);
+  }
+
+  &__count {
+    font-size: 17.5px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--ef-txt);
+
+    &--posts {
+      color: var(--ef-txt-2);
+    }
+  }
+
+  &__latest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding-left: 16px;
+    border-left: 1px solid var(--ef-frame-soft);
+  }
+
+  &__latest-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+
+    a {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 14.5px;
+      color: var(--ef-txt);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--ef-orange-2);
+      }
+    }
+
+    span {
+      font-size: 13px;
+      color: var(--ef-mut);
+    }
+  }
+
+  &__empty {
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--ef-faint);
+  }
+}
+
+// Forum medallion: the category's Logo image, or an icon
+.ef-medal {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--ef-frame);
+  border-radius: 2px;
+  background: #0a0909;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 2px rgb(0, 0, 0, 0.6),
+    0 6px 12px -4px #000;
+  color: var(--ef-accent);
+
+  .d-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  &--icon {
+    background: radial-gradient(circle at 50% 30%, #241f22, #0a0909 75%);
+  }
+}
+
+.ef-avatar {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid var(--ef-frame);
+  border-radius: 2px;
+  object-fit: cover;
+
+  &--initial {
+    display: grid;
+    place-items: center;
+    background: var(--ef-crimson-d);
+    color: var(--ef-txt);
+    font-family: var(--ef-label);
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+
+// Lobby: Latest discussions
+.ef-topic {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto 70px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+
+  & + & {
+    border-top: 1px solid var(--ef-frame-soft);
+  }
+
+  .ef-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__title {
+    overflow: hidden;
+    font-size: 17px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--ef-txt);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ef-orange-2);
+    }
+  }
+
+  &__meta {
+    font-size: 13.5px;
+    color: var(--ef-mut);
+  }
+
+  &__replies {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    font-size: 14.5px;
+    color: var(--ef-txt-2);
+
+    .d-icon {
+      width: 14px;
+      height: 14px;
+      color: var(--ef-mut);
+    }
+  }
+}
+
+.ef-bar:not(.ef-bar--forums) .ef-bar__col:last-child {
+  margin-left: auto;
+}
+
+// The game a lobby topic belongs to, in the game's category color
+.ef-chip {
+  @include ef-label(11px, 0.12em);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border: 1px solid var(--ef-frame-soft);
+  border-radius: 12px;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--ef-chip, var(--ef-accent)) 70%, #fff);
+
+  img {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+  }
+}
+
+.ef-more {
+  @include ef-label(11.5px, 0.18em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border-top: 1px solid var(--ef-frame-soft);
+  color: var(--ef-accent);
+  text-decoration: none;
+
+  .d-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  &:hover {
+    color: var(--ef-orange-2);
+    background: rgb(255, 122, 46, 0.05);
+  }
+}
+
+.ef-empty {
+  padding: 18px 16px;
+  font-style: italic;
+  color: var(--ef-mut);
+}
+
+// Sidebar panels
+.ef-latest-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+
+  & + & {
+    border-top: 1px solid var(--ef-frame-soft);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+
+    a {
+      font-size: 15px;
+      color: var(--ef-txt);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--ef-orange-2);
+      }
+    }
+
+    span {
+      font-size: 13px;
+      color: var(--ef-mut);
+    }
+  }
+}
+
+.ef-stats {
+  margin: 0;
+}
+
+.ef-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  font-size: 16px;
+
+  & + & {
+    border-top: 1px solid var(--ef-frame-soft);
+  }
+
+  dt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ef-txt);
+
+    .d-icon {
+      width: 17px;
+      height: 17px;
+      color: var(--ef-accent);
+      opacity: 0.8;
+    }
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
+.ef-support {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: var(--ef-txt);
+  text-decoration: none;
+
+  & + & {
+    border-top: 1px solid var(--ef-frame-soft);
+  }
+
+  .ef-medal {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+
+    .d-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+
+    b {
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 13.5px;
+      color: var(--ef-mut);
+    }
+  }
+
+  &:hover {
+    color: var(--ef-orange-2);
+    background: rgb(255, 122, 46, 0.05);
+  }
+}
+
+.ef-share {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+
+  &__intro {
+    font-size: 14.5px;
+    color: var(--ef-mut);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  &__net {
+    display: grid;
+    place-items: center;
+    height: 38px;
+    border: 1px solid var(--ef-frame-soft);
+    border-radius: 3px;
+    background: rgb(255, 255, 255, 0.02);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ef-txt);
+    text-decoration: none;
+
+    &:hover {
+      border-color: var(--ef-frame);
+      color: #fff;
+    }
+  }
+
+  &__copy {
+    display: flex;
+    gap: 6px;
+
+    input {
+      flex-grow: 1;
+      min-width: 0;
+      height: 42px;
+      margin: 0;
+      padding: 0 12px;
+      border: 1px solid var(--ef-frame-soft);
+      border-radius: 3px;
+      background: var(--ef-page);
+      font-size: 13px;
+      color: var(--ef-txt-2);
+    }
+
+    .ef-btn {
+      padding: 0 16px;
+    }
+  }
+}
+
+// ---------- Tab row above topic lists ----------
+// Forums · Latest · New · Top, the forum filter and New Topic, in a framed
+// panel
+.navigation-container {
+  @include ef-frame;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 4px 10px;
+  min-height: 62px;
+  margin-bottom: 22px;
+  padding: 0 14px 0 8px;
+  box-sizing: border-box;
+
+  .nav-pills {
+    order: 1;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    > li {
+      display: flex;
+      margin: 0;
+
+      > a {
+        @include ef-label(13px, 0.16em);
+        display: flex;
+        align-items: center;
+        height: auto;
+        padding: 0 18px;
+        border-radius: 0;
+        background: transparent;
+        color: var(--ef-mut);
+
+        &:hover {
+          color: var(--ef-txt);
+          background: transparent;
+        }
+
+        &.active,
+        &.active:hover {
+          color: var(--ef-txt);
+          background: transparent;
+          box-shadow:
+            inset 0 -2px 0 var(--ef-orange),
+            inset 0 -14px 20px -16px rgb(255, 122, 46, 0.7);
+        }
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    // Categories is replaced by the lobby and the hall pages
+    .nav-item_categories {
+      display: none;
+    }
+  }
+
+  // The forum filter sits on the right, before New Topic; tags filter is off
+  .category-breadcrumb {
+    order: 2;
+    align-self: center;
+    margin: 0 0 0 auto;
+    gap: 6px;
+
+    li:has(.tag-drop) {
+      display: none;
+    }
+
+    &::before {
+      content: "In";
+      align-self: center;
+      margin-right: 4px;
+      color: var(--ef-mut);
+      font-size: 15px;
+    }
+
+    .select-kit-header {
+      min-height: 40px;
+      border: 1px solid var(--ef-frame-soft);
+      border-radius: 3px;
+      background: var(--ef-well);
+      color: var(--ef-txt-2);
+      font-size: 15px;
+    }
+
+    // "categories" reads as "All forums"
+    .category-drop-header[data-value=""] .selected-name .name {
+      font-size: 0;
+
+      &::after {
+        content: "All forums";
+        font-size: 15px;
+      }
+    }
+  }
+
+  .navigation-controls {
+    order: 3;
+    align-self: center;
+    margin-left: 0;
+  }
+}
+
+#create-topic {
+  @include ef-hot;
+  @include ef-label(13px, 0.14em);
+  min-height: 42px;
+  padding: 0 20px;
+}
+
+// ---------- Topic lists (forum pages, Latest, etc.) ----------
+.topic-list {
+  @include ef-frame;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  .topic-list-header {
+    @include ef-bar;
+
+    th {
+      @include ef-label(11px, 0.18em);
+      border: 0;
+      color: rgb(255, 225, 200, 0.75);
+    }
+
+    th button,
+    th .header-contents {
+      color: rgb(255, 225, 200, 0.75);
+    }
+  }
+
+  .topic-list-item {
+    background: transparent;
+
+    td {
+      border-top: 1px solid var(--ef-frame-faint);
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: rgb(255, 122, 46, 0.05);
+    }
+
+    // New topics and topics with new replies stand out; read ones step back
+    &.unseen-topic,
+    &:has(.badge-notification.unread-posts) {
+      background: rgb(255, 122, 46, 0.04);
+    }
+
+    &.visited:not(:has(.badge-notification.unread-posts))
+      .link-top-line
+      .title {
+      color: var(--ef-mut);
+      font-weight: 500;
+    }
+
+    &.pinned {
+      background: rgb(236, 208, 142, 0.04);
+    }
+
+    // Line between the topics you'd seen and the ones that came in since
+    &.last-visit td {
+      border-bottom: 1px solid var(--ef-frame);
+    }
+  }
+
+  .link-top-line .title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ef-txt);
+  }
+
+  .badge-notification.unread-posts {
+    min-width: 0;
+    padding: 0 7px;
+    border-radius: 10px;
+    background: var(--ef-orange);
+    color: #1a0e05;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+
+    &::before {
+      content: "+";
+    }
+  }
+
+  .badge-notification.new-topic::before {
+    width: 9px;
+    height: 9px;
+    background: var(--ef-orange);
+    box-shadow: 0 0 10px rgb(255, 122, 46, 0.9);
+  }
+
+  .badge-category__name {
+    color: var(--ef-txt-2);
+  }
+
+  .topic-status.--pinned .d-icon,
+  .topic-statuses .pinned .d-icon {
+    color: var(--ef-accent);
+  }
+
+  .num.posts-map,
+  .num.views,
+  .num.activity a {
+    color: var(--ef-txt-2);
+  }
+}
+
+// New members see "new" next to the dot; core colors it dark
+.badge-notification.new-topic,
+.badge-notification.new-topic[href] {
+  color: var(--ef-orange-2);
+  font-weight: 600;
+
+  &:not(:empty)::before {
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+}
+
+// ---------- Topic page ----------
+// Classic forum posts on desktop: an author panel on the left (big framed
+// portrait, name, title, Staff tag) and the post on the right under a thin
+// date bar. Discourse nests the name inside the post body, so .topic-body
+// and .topic-meta-data become `display: contents` and their children are
+// placed straight onto the post's grid. Mobile keeps the stock layout.
+
+@media (width >= 925px) {
+  #main-outlet .container.posts {
+    grid-template-columns: minmax(0, 1fr) 140px;
+
+    .topic-navigation {
+      margin-left: 22px;
+    }
+  }
+
+  // The footer bar lines up with the posts, not the timeline
+  #topic-footer-buttons {
+    margin-right: 162px;
+  }
+}
+
+#topic-title {
+  margin-top: 8px;
+  margin-bottom: 22px;
+
+  h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.12;
+    color: var(--ef-txt);
+  }
+
+  .topic-statuses .d-icon {
+    color: var(--ef-accent);
+  }
+}
+
+.desktop-view .container.posts {
+  --ef-side: 190px;
+
+  .topic-post article.boxed {
+    margin-bottom: 16px;
+    border: 1px solid var(--ef-frame-soft);
+    border-radius: 0;
+
+    // Author panel shade + divider, then the panel gradient
+    background:
+      linear-gradient(
+        90deg,
+        rgb(6, 5, 6, 0.5) 0 var(--ef-side),
+        var(--ef-frame-faint) var(--ef-side) calc(var(--ef-side) + 1px),
+        transparent calc(var(--ef-side) + 1px)
+      ),
+      var(--ef-panel);
+    box-shadow:
+      inset 0 0 0 3px var(--ef-panel-2),
+      inset 0 0 0 4px var(--ef-frame-faint),
+      0 24px 44px -22px #000;
+    overflow: hidden;
+  }
+
+  .topic-post .post__row {
+    display: grid;
+    grid-template-columns: var(--ef-side) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    min-height: 230px;
+  }
+
+  .topic-post .topic-body,
+  .topic-post .topic-meta-data {
+    display: contents;
+  }
+
+  .topic-post .topic-body > * {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  // Left panel: portrait on top, name block under it (same grid cell, pushed
+  // down by a fixed margin so it never depends on the post's length)
+  .topic-post .topic-avatar {
+    grid-column: 1;
+    grid-row: 1 / span 6;
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+    width: auto;
+    margin: 0;
+    padding: 26px 0 0;
+    border: 0;
+    background: none;
+
+    .post-avatar {
+      position: static;
+      display: flex;
+      justify-content: center;
+    }
+
+    .main-avatar img.avatar {
+      width: 112px;
+      height: 112px;
+      border: 1px solid var(--ef-frame);
+      border-radius: 2px;
+      box-shadow:
+        0 0 0 3px rgb(0, 0, 0, 0.7),
+        0 0 0 4px var(--ef-frame-soft),
+        0 16px 26px -10px rgb(0, 0, 0, 0.9);
+    }
+  }
+
+  .topic-post .names {
+    grid-column: 1;
+    grid-row: 1 / span 6;
+    align-self: start;
+    justify-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    margin: 160px 0 0;
+    padding: 0 14px 20px;
+    float: none;
+    text-align: center;
+
+    > span {
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .first a {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ef-txt);
+    }
+
+    .first.staff .d-icon {
+      color: var(--ef-accent);
+    }
+
+    .second,
+    .user-title {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--ef-mut);
+    }
+
+    &:has(.username.staff)::after {
+      @include ef-label(11px, 0.22em);
+      content: "Staff";
+      margin-top: 6px;
+      padding: 3px 12px;
+      border: 1px solid var(--ef-hot-border);
+      border-radius: 2px;
+      background: var(--ef-hot);
+      color: #fff4e4;
+      font-weight: 700;
+    }
+  }
+
+  // Right side: date bar, then the post
+  .topic-post .post-infos {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 42px;
+    margin: 0;
+    padding: 0 22px;
+    border-bottom: 1px solid var(--ef-frame-faint);
+    background: linear-gradient(
+      180deg,
+      rgb(255, 240, 220, 0.035),
+      rgb(255, 240, 220, 0.01)
+    );
+
+    a,
+    .d-icon {
+      font-size: 13px;
+      color: var(--ef-mut);
+    }
+
+    // Full date and time first; edit, reply-to and read marks on the right
+    .ef-post-date {
+      order: -1;
+      margin-right: auto;
+
+      a {
+        @include ef-label(11.5px, 0.12em);
+        color: var(--ef-txt-2);
+      }
+
+      a:hover {
+        color: var(--ef-txt);
+      }
+    }
+  }
+
+  .topic-post .post__contents {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    padding: 20px 26px 10px;
+    float: none;
+
+    .cooked {
+      flex-grow: 1;
+      padding: 0;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+  }
+
+  .topic-post .post__actions:empty {
+    display: none;
+  }
+
+  .topic-post .post-menu-area {
+    margin: 14px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--ef-frame-faint);
+  }
+
+  // "1 view" strip on the first post
+  .topic-post .topic-map {
+    max-width: none;
+    margin: 0 0 0 calc(var(--ef-side) + 1px);
+    padding: 8px 26px;
+    border-top: 1px solid var(--ef-frame-faint);
+
+    .topic-map__stats {
+      border: 0;
+    }
+  }
+
+  // Closed / moved / split notes (pin and banner ones are hidden, below)
+  .small-action {
+    margin: 0 0 16px;
+    padding: 10px 0;
+    border: 1px dashed var(--ef-frame-soft);
+    background: rgb(13, 12, 14, 0.6);
+
+    .topic-avatar {
+      justify-content: center;
+      width: var(--ef-side);
+      margin: 0;
+
+      .d-icon {
+        color: var(--ef-accent);
+      }
+    }
+  }
+
+  .small-action-desc {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: none;
+    padding-left: 26px;
+    color: var(--ef-mut);
+
+    a {
+      color: var(--ef-txt-2);
+    }
+  }
+}
+
+// "@name pinned this 2h ago" and banner notes (tagged in the initializer)
+.small-action.ef-quiet-action {
+  display: none;
+}
+
+.topic-post .post-controls .actions .btn {
+  color: var(--ef-mut);
+
+  .d-icon {
+    color: var(--ef-mut);
+  }
+
+  &:hover,
+  &:hover .d-icon {
+    color: var(--ef-txt);
+    background: rgb(255, 122, 46, 0.1);
+  }
+
+  &.reply {
+    @include ef-label(12px, 0.12em);
+    margin-left: 8px;
+    border: 1px solid var(--ef-frame-soft);
+
+    &:hover {
+      border-color: var(--ef-frame);
+    }
+  }
+}
+
+.topic-post-visited-line {
+  flex: 1 1 auto;
+  width: auto !important;
+  max-width: none;
+  border-color: var(--ef-frame-soft);
+}
+
+.topic-post-visited-message {
+  @include ef-label(12px, 0.2em);
+  background: var(--ef-page);
+  color: var(--ef-accent);
+}
+
+// Share / Bookmark / Reply bar and the pin + notification choices. One slim
+// row: topic actions on the left, then Pinned, Tracking and Reply on the
+// right, all the same height. Core's wrappers become `display: contents` so
+// every control sits on the same flex line; the long "You will receive
+// notifications because..." and "This topic is pinned for you..." texts
+// are dropped (the menus explain each choice when opened).
+.desktop-view #topic-footer-buttons {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: auto !important;
+  max-width: none !important;
+  margin-top: 18px;
+  padding: 10px 12px;
+  border: 1px solid var(--ef-frame-soft);
+  background: var(--ef-panel);
+  box-shadow:
+    inset 0 0 0 3px var(--ef-panel-2),
+    inset 0 0 0 4px var(--ef-frame-faint);
+
+  .topic-footer-main-buttons,
+  .reason {
+    display: contents;
+  }
+
+  .topic-footer-main-buttons__actions,
+  .pinned-button,
+  .topic-notifications-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .topic-footer-main-buttons__actions {
+    order: 1;
+    margin-right: auto;
+  }
+
+  .pinned-button {
+    order: 2;
+  }
+
+  .topic-notifications-button {
+    order: 3;
+  }
+
+  .reason .text {
+    display: none;
+  }
+
+  .btn,
+  .create {
+    height: 38px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .btn-default {
+    border: 1px solid var(--ef-frame-soft);
+    background: rgb(0, 0, 0, 0.3);
+    color: var(--ef-txt-2);
+
+    .d-icon {
+      color: var(--ef-mut);
+    }
+
+    &:hover,
+    &[aria-expanded="true"] {
+      border-color: var(--ef-frame);
+      background: rgb(236, 208, 142, 0.08);
+      color: var(--ef-txt);
+
+      .d-icon {
+        color: var(--ef-txt);
+      }
+    }
+
+    &.no-text {
+      width: 38px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+
+  // Icon-only admin wrench, like the buttons beside it
+  .topic-admin-menu-trigger {
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .create {
+    @include ef-label(13px, 0.14em);
+    order: 4;
+    padding: 0 22px;
+  }
+}
+
+.topic-timeline {
+  .timeline-scrollarea {
+    border-left-color: var(--ef-frame-soft);
+  }
+
+  .timeline-handle {
+    background: var(--ef-orange);
+    box-shadow: 0 0 10px rgb(255, 122, 46, 0.6);
+  }
+
+  .timeline-date-wrapper a,
+  .timeline-ago {
+    color: var(--ef-mut);
+  }
+}
+
+.cooked {
+  color: #e8dcc6;
+
+  blockquote,
+  aside.quote blockquote {
+    border-left: 2px solid var(--ef-frame);
+    background: rgb(236, 208, 142, 0.05);
+  }
+
+  aside.quote .title {
+    border-left: 2px solid var(--ef-frame);
+    background: rgb(236, 208, 142, 0.08);
+    color: var(--ef-accent);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--ef-label);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ef-txt);
+  }
+
+  code,
+  pre code {
+    font-family: ui-monospace, monospace;
+  }
+}
+
+// ---------- Composer ----------
+// Core keeps the reply box at about 740px. On desktop it takes the posts
+// column's left edge and width instead (measured in emberfish.gjs), and a
+// new topic opens taller so there is room to write. Core falls back to
+// 400px, and a height the player drags to is remembered over this.
+:root {
+  --new-topic-composer-height: min(72vh, 760px);
+}
+
+#reply-control {
+  border-top: 1px solid var(--ef-frame);
+  background: var(--ef-panel-1);
+  box-shadow: 0 -10px 30px rgb(0, 0, 0, 0.6);
+}
+
+@media (width >= 925px) {
+  html.desktop-view
+    body:not(.has-sidebar-page)
+    #reply-control:not(.fullscreen) {
+    left: var(--ef-composer-left, 0);
+    right: auto;
+    width: var(--ef-composer-width, 100%);
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  html.desktop-view
+    #reply-control.open[class*="composer-action-create"]:not(.fullscreen) {
+    --min-height: min(56vh, 520px);
+  }
+}
+
+// ---------- Menus and cards ----------
+.menu-panel,
+.user-card,
+.group-card,
+.select-kit .select-kit-body,
+.fk-d-menu__inner-content {
+  border-color: var(--ef-frame-soft);
+}
+
+.d-modal__container {
+  border: 1px solid var(--ef-frame);
+  box-shadow:
+    inset 0 0 0 3px var(--secondary),
+    inset 0 0 0 4px var(--ef-frame-faint),
+    0 30px 60px rgb(0, 0, 0, 0.8);
+}
+
+.d-modal__title-text,
+.login-title {
+  font-family: var(--ef-label);
+  letter-spacing: 0.06em;
+}
+
+// ---------- Mobile ----------
+
+@media (width <= 900px) {
+  .ef-header-nav {
+    display: none;
+  }
+
+  .ef-brand__logo {
+    height: 38px;
+  }
+
+  .ef-home__grid,
+  .ef-doors,
+  .ef-doors--1,
+  .ef-doors--3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ef-halls {
+    overflow-x: auto;
+
+    &__label {
+      display: none;
+    }
+
+    &__link {
+      padding: 0 12px;
+    }
+  }
+
+  .ef-hall-banner {
+    height: 300px;
+
+    &__content {
+      padding-bottom: 30px;
+    }
+
+    &__logo {
+      width: min(300px, 80vw);
+    }
+
+    &--slim {
+      height: 104px;
+
+      .ef-hall-banner__content {
+        padding-bottom: 0;
+      }
+
+      .ef-hall-banner__logo {
+        width: 150px;
+      }
+    }
+  }
+
+  .ef-bar--forums {
+    grid-template-columns: minmax(0, 1fr) 60px;
+  }
+
+  .ef-forum {
+    grid-template-columns: 68px minmax(0, 1fr) 60px;
+  }
+
+  .ef-medal {
+    width: 52px;
+    height: 52px;
+  }
+
+  .ef-bar__col--posts,
+  .ef-bar__col--latest,
+  .ef-forum__count--posts,
+  .ef-forum__latest {
+    display: none;
+  }
+
+  .ef-topic {
+    grid-template-columns: 40px minmax(0, 1fr) 50px;
+
+    .ef-avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    .ef-chip {
+      display: none;
+    }
+  }
+
+  .ef-door__art {
+    height: 150px;
+  }
+
+  // Tabs scroll sideways instead of wrapping
+  .navigation-container .nav-pills {
+    overflow-x: auto;
+
+    > li > a {
+      padding: 0 12px;
+      white-space: nowrap;
+    }
+  }
+
+  #banner::before {
+    display: none;
+  }
+}
+
+// ---------- Profile fields ----------
+// Fields turned off with the hide_profile_* settings. This hides them in
+// the interface only. Anything a user already saved stays in their account.
+.ef-hide-location {
+  .pref-location,
+  .user-profile-location,
+  .user-card .location {
+    display: none;
+  }
+}
+
+// Keep suspension and silence notices, which share the profile's bio box
+.ef-hide-bio {
+  .pref-bio,
+  .user-card .bio,
+  .user-main .bio > :not(.suspended, .silenced) {
+    display: none;
+  }
+}
+
+// When the main column gets narrow (for example with the left sidebar open),
+// drop the Posts column so names and descriptions keep their room. Desktop
+// only: phones have their own layout (see Mobile, above).
+.ef-home__main {
+  container-type: inline-size;
+}
+
+@media (width > 900px) {
+  @container (max-width: 760px) {
+    .ef-bar--forums {
+      grid-template-columns: minmax(0, 1fr) 70px 210px;
+    }
+
+    .ef-forum {
+      grid-template-columns: 76px minmax(0, 1fr) 70px 210px;
+    }
+
+    .ef-bar__col--posts,
+    .ef-forum__count--posts {
+      display: none;
+    }
+  }
+}
+
+// ---------- Footer credit ----------
+
+// Core's badge sits between the content and the footer. The theme shows
+// its own credit as the last line of the footer instead (ef-powered-by).
+.powered-by-discourse {
+  display: none !important;
+}
+
+.ef-powered-by {
+  @include ef-label(10.5px, 0.2em);
+  padding: 14px 16px 26px;
+  text-align: center;
+
+  a {
+    color: var(--ef-faint);
+  }
+
+  a:hover {
+    color: var(--ef-txt);
+  }
+}
+
+// ---------- Navigation menu ----------
+
+// The lobby and hall pages are the forum index, so the menu's category and
+// tag lists only repeat them. Hidden for everyone; staff still have
+// /categories.
+.sidebar-sections [data-section-name="categories"],
+.sidebar-sections [data-section-name="tags"] {
+  display: none;
+}

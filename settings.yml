@@ -1,0 +1,87 @@
+# Theme settings are sent to every visitor's browser, so nothing here (not
+# even a default) may name a game before it is public. A game's hall comes
+# from its category (see INSTALL.md); its line in hall_details is added in
+# the admin on the day the game is revealed.
+
+nav_rules_url:
+  type: string
+  default: "/guidelines"
+  description: "Where the Rules link in the top bar goes."
+
+nav_website_url:
+  type: string
+  default: "https://emberfishgames.com"
+  description: "Where the Website link in the top bar goes."
+
+lobby_title:
+  type: string
+  default: "The Emberfish Halls"
+  description: "Heading at the top of the lobby (the homepage)."
+
+lobby_subtitle:
+  type: string
+  default: "Pick a game to find its news, strategy and feedback."
+  description: "Line under the lobby heading. Leave empty to hide it."
+
+hall_details:
+  type: list
+  list_type: simple
+  default: "hadean-tactics;Out now · Moonhunter DLC;The original deckbuilding auto-battler. Defeat the Six Wings.;Buy on Steam;https://store.steampowered.com/app/1260590/Hadean_Tactics/"
+  description: "Words and buttons for each game hall, one line per game: category-slug;tagline;one-sentence pitch;button text;button link;second button text;second button link. Leave a part empty to skip it (the second button is optional). Don't use ; or | inside the text. A game's art comes from its category's Images, not from here."
+
+support_category:
+  type: string
+  default: "support"
+  description: "Slug of the forum-wide Support parent category. It gets the Support tab in the halls bar and the Support panel in the lobby, and is never shown as a game hall."
+
+hall_sections:
+  type: list
+  list_type: simple
+  default: "Official;announcements,patch-notes,news|Community;general,strategy,fan-art-clips|*|Help us build it;feedback,bug-reports,bugs-feedback,playtest"
+  description: "How a hall page groups its forums, one section per line: Section name;subcategory-slug,subcategory-slug. The same lines serve every game: each hall shows the slugs it has, in this order, and skips the rest. A forum with forums of its own (such as a DLC) becomes a section named after it, placed at the line that is just *. Forums that fit no line go in a last 'Forums' section."
+
+category_icons:
+  type: list
+  list_type: simple
+  default: "forum-help:circle-question|forum-feedback:comment"
+  description: "Icon for forums without a Logo image, as category-slug:icon-name. New icon names must also be added to svg_icons in about.json. A category's own icon (category settings) is used when it has one."
+
+lobby_latest_count:
+  type: integer
+  default: 6
+  min: 3
+  max: 12
+  description: "How many topics the lobby's Latest discussions panel lists."
+
+show_stats:
+  type: bool
+  default: true
+  description: "Show the Forum stats panel in the lobby and on hall pages."
+
+share_networks:
+  type: list
+  list_type: simple
+  default: "x|reddit|facebook|whatsapp|weibo|email"
+  description: "Share buttons in the lobby. Choices: x, reddit, facebook, whatsapp, weibo, email."
+
+share_text:
+  type: string
+  default: "Join the Emberfish Games forums"
+  description: "Text that goes with shared links."
+
+hide_profile_location:
+  type: bool
+  default: true
+  description: "Hide the Location field from profile settings, profiles and user cards."
+
+hide_profile_bio:
+  type: bool
+  default: false
+  description: "Hide the About me (bio) field from profile settings, profiles and user cards."
+
+content_width:
+  type: integer
+  default: 1280
+  min: 1000
+  max: 1600
+  description: "Maximum width of the forum's content, in pixels (Discourse's default is 1110)."
