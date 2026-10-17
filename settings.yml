@@ -32,7 +32,7 @@ hall_details:
 support_category:
   type: string
   default: "support"
-  description: "Slug of the forum-wide Support parent category. It gets the Support tab in the halls bar and the Support panel in the lobby, and is never shown as a game hall."
+  description: "Slug of the forum-wide Support parent category. It gets the Support tab in the halls bar and the Support panel on hall pages, and is never shown as a game hall."
 
 hall_sections:
   type: list
@@ -46,23 +46,23 @@ category_icons:
   default: "forum-help:circle-question|forum-feedback:comment"
   description: "Icon for forums without a Logo image, as category-slug:icon-name. New icon names must also be added to svg_icons in about.json. A category's own icon (category settings) is used when it has one."
 
-lobby_latest_count:
+latest_count:
   type: integer
-  default: 6
+  default: 5
   min: 3
   max: 12
-  description: "How many topics the lobby's Latest discussions panel lists."
+  description: "How many topics a hall page's Latest posts panel lists."
 
 show_stats:
   type: bool
   default: true
-  description: "Show the Forum stats panel in the lobby and on hall pages."
+  description: "Show the Forum stats panel on hall pages."
 
 share_networks:
   type: list
   list_type: simple
   default: "x|reddit|facebook|whatsapp|weibo|email"
-  description: "Share buttons in the lobby. Choices: x, reddit, facebook, whatsapp, weibo, email."
+  description: "Share buttons on hall pages (they share the hall's link). Choices: x, reddit, facebook, whatsapp, weibo, email."
 
 share_text:
   type: string

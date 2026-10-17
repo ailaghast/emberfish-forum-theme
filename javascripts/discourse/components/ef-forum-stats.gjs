@@ -11,7 +11,7 @@ const ICONS = {
   Members: "#user-group",
 };
 
-// Forum stats panel (lobby and hall pages). Topics and posts count public
+// Forum stats panel (hall pages). Topics and posts count public
 // categories only, so staff see the same numbers as everyone else; category
 // counts already leave out each category's "About" topic.
 export default class EfForumStats extends Component {

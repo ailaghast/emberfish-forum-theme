@@ -1,6 +1,6 @@
 # Updating the theme from GitHub
 
-The theme lives in a private GitHub repo (`emberfish/emberfish-forum-theme`). The forum pulls new versions from it, so you never delete or re-upload the theme.
+The theme lives in a private GitHub repo (`ailaghast/emberfish-forum-theme`). The forum pulls new versions from it, so you never delete or re-upload the theme.
 
 ## Branches: staging first, then live
 

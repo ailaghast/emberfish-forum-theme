@@ -5,7 +5,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { trustHTML } from "@ember/template";
 
-// The site-wide announcement bar on the homepage. It shows the core "banner
+// The site-wide announcement bar on the lobby. It shows the core "banner
 // topic" (topic wrench → Make banner topic) and remembers dismissals the
 // same way core does, so closing it here also hides it on other pages.
 export default class EfAnnouncement extends Component {

@@ -82,34 +82,13 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".ef-halls__link", text: /secret game/i)
     end
 
-    it "lists the latest discussions, public forums only, even for staff" do
-      Fabricate(:topic_with_op, category: secret, title: "Reveal plans for the team")
-
-      sign_in(admin)
+    it "shows only the doors and the announcement bar" do
       visit "/"
 
-      expect(page).to have_css(".ef-topic", text: topic.title)
-      expect(page).to have_css(".ef-topic .ef-chip", text: /public game/i)
-      expect(page).to have_no_css(".ef-topic", text: /reveal plans for the team/i)
-    end
-
-    it "shows the Support forums" do
-      visit "/"
-
-      expect(page).to have_css(".ef-support", text: "Forum Help")
-    end
-
-    it "counts only public forums in Forum stats, even for staff" do
-      Fabricate.times(3, :topic_with_op, category: secret)
-      Category.update_stats
-      Site.clear_cache
-      public_topics = Category.where(read_restricted: false).sum(:topic_count)
-
-      sign_in(admin)
-      visit "/"
-
-      stat = find(".ef-stat", text: /topics/i)
-      expect(stat).to have_css("dd", exact_text: public_topics.to_s)
+      expect(page).to have_css(".ef-door")
+      expect(page).to have_no_css(".ef-home__grid")
+      expect(page).to have_no_css(".ef-support")
+      expect(page).to have_no_css(".ef-share")
     end
 
     it "shows staff no theme errors" do
@@ -161,6 +140,38 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".ef-bar__title a[href='#{dlc.url}']")
       expect(page).to have_css(".ef-forum__name", text: "DLC Talk")
       expect(page).to have_css(".ef-forum__latest", text: "First run with the new hero")
+    end
+
+    it "lists the hall's latest posts on the right" do
+      visit game.url
+
+      expect(page).to have_css(".ef-home__aside .ef-latest-item", text: topic.title)
+    end
+
+    it "shows the Support forums" do
+      visit game.url
+
+      expect(page).to have_css(".ef-home__aside .ef-support", text: "Forum Help")
+    end
+
+    it "counts only public forums in Forum stats, even for staff" do
+      Fabricate.times(3, :topic_with_op, category: secret)
+      Category.update_stats
+      Site.clear_cache
+      public_topics = Category.where(read_restricted: false).sum(:topic_count)
+
+      sign_in(admin)
+      visit game.url
+
+      stat = find(".ef-stat", text: /topics/i)
+      expect(stat).to have_css("dd", exact_text: public_topics.to_s)
+    end
+
+    it "shares the hall's own link" do
+      visit game.url
+
+      expect(page).to have_css(".ef-share", text: /public game/i)
+      expect(find(".ef-share__copy input").value).to end_with(game.url)
     end
 
     it "keeps core's topic list inside a forum, under a slim banner" do

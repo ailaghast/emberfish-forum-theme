@@ -693,7 +693,7 @@ body.ef-hall-page #header-list-area {
   &__art {
     position: relative;
     display: block;
-    height: 190px;
+    height: 230px;
     margin: 4px 4px 0;
     overflow: hidden;
     background-color: #08070a;
@@ -738,9 +738,12 @@ body.ef-hall-page #header-list-area {
     text-shadow: 0 4px 16px #000;
   }
 
+  // Grows to the door's full height, so side-by-side doors line up even when
+  // one has more buttons: the topic count always sits at the bottom
   &__body {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     align-items: center;
     gap: 9px;
     padding: 4px 22px 18px;
@@ -764,6 +767,7 @@ body.ef-hall-page #header-list-area {
   }
 
   &__meta {
+    margin-top: auto;
     font-size: 14px;
     color: var(--ef-mut);
   }
@@ -1018,115 +1022,6 @@ body.ef-hall-page #list-area {
     font-size: 15px;
     font-weight: 700;
   }
-}
-
-// Lobby: Latest discussions
-.ef-topic {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto 70px;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-
-  & + & {
-    border-top: 1px solid var(--ef-frame-soft);
-  }
-
-  .ef-avatar {
-    width: 44px;
-    height: 44px;
-  }
-
-  &__text {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  &__title {
-    overflow: hidden;
-    font-size: 17px;
-    font-weight: 600;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: var(--ef-txt);
-    text-decoration: none;
-
-    &:hover {
-      color: var(--ef-orange-2);
-    }
-  }
-
-  &__meta {
-    font-size: 13.5px;
-    color: var(--ef-mut);
-  }
-
-  &__replies {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    font-size: 14.5px;
-    color: var(--ef-txt-2);
-
-    .d-icon {
-      width: 14px;
-      height: 14px;
-      color: var(--ef-mut);
-    }
-  }
-}
-
-.ef-bar:not(.ef-bar--forums) .ef-bar__col:last-child {
-  margin-left: auto;
-}
-
-// The game a lobby topic belongs to, in the game's category color
-.ef-chip {
-  @include ef-label(11px, 0.12em);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 10px;
-  border: 1px solid var(--ef-frame-soft);
-  border-radius: 12px;
-  white-space: nowrap;
-  color: color-mix(in srgb, var(--ef-chip, var(--ef-accent)) 70%, #fff);
-
-  img {
-    width: 16px;
-    height: 16px;
-    border-radius: 2px;
-  }
-}
-
-.ef-more {
-  @include ef-label(11.5px, 0.18em);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 12px;
-  border-top: 1px solid var(--ef-frame-soft);
-  color: var(--ef-accent);
-  text-decoration: none;
-
-  .d-icon {
-    width: 11px;
-    height: 11px;
-  }
-
-  &:hover {
-    color: var(--ef-orange-2);
-    background: rgb(255, 122, 46, 0.05);
-  }
-}
-
-.ef-empty {
-  padding: 18px 16px;
-  font-style: italic;
-  color: var(--ef-mut);
 }
 
 // Sidebar panels
@@ -2122,21 +2017,8 @@ body.ef-hall-page #list-area {
     display: none;
   }
 
-  .ef-topic {
-    grid-template-columns: 40px minmax(0, 1fr) 50px;
-
-    .ef-avatar {
-      width: 40px;
-      height: 40px;
-    }
-
-    .ef-chip {
-      display: none;
-    }
-  }
-
   .ef-door__art {
-    height: 150px;
+    height: 170px;
   }
 
   // Tabs scroll sideways instead of wrapping

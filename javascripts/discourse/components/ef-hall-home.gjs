@@ -6,6 +6,8 @@ import { fetchTopics, noteStart, topicRows } from "../lib/ef-activity";
 import { fmtNumber, hallFor, hallSections } from "../lib/ef-config";
 import EfForumStats from "./ef-forum-stats";
 import EfMedal from "./ef-medal";
+import EfSharePanel from "./ef-share-panel";
+import EfSupportPanel from "./ef-support-panel";
 
 // The hall page itself (see EfHallHome below)
 class EfHallForums extends Component {
@@ -66,7 +68,9 @@ class EfHallForums extends Component {
   }
 
   get latest() {
-    return this.topics.filter((t) => t.isPublic).slice(0, 5);
+    return this.topics
+      .filter((t) => t.isPublic)
+      .slice(0, settings.latest_count);
   }
 
   get errorText() {
@@ -169,9 +173,13 @@ class EfHallForums extends Component {
           </section>
         {{/if}}
 
+        <EfSupportPanel />
+
         {{#if settings.show_stats}}
           <EfForumStats />
         {{/if}}
+
+        <EfSharePanel @hall={{@hall}} />
       </aside>
     </div>
   </template>
@@ -179,8 +187,9 @@ class EfHallForums extends Component {
 
 // Replaces core's topic list on a hall's own page (/c/<hall>, the
 // "discovery.category" route): the hall's forums in sections, each with its
-// medallion, counts and latest topic, and Latest posts and Forum stats on
-// the right. Everywhere else it shows core's list unchanged ({{yield}}).
+// medallion, counts and latest topic, and Latest posts, Support, Forum
+// stats and Share on the right. Everywhere else it shows core's list
+// unchanged ({{yield}}).
 export default class EfHallHome extends Component {
   @service router;
 

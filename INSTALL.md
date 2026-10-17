@@ -8,8 +8,8 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 
 - **Header:** the Emberfish Games logo, then Forums · Rules · Website ↗.
 - **Halls bar:** Lobby · one tab per game hall · Support.
-- **Lobby (homepage):** "The Emberfish Halls", one door per game (art, logo, tagline, pitch, Enter the hall + store button), the announcement bar, Latest discussions from every game, and Support, Forum stats and Share on the right.
-- **Hall page** (`/c/<game>`): the game's banner with its buttons, the announcement bar, the tab row (Forums · Latest · New · Top · In · New Topic), the game's forums in sections (Official / Community / a section per DLC / Help us build it) with hero medallions, and Latest posts and Forum stats on the right.
+- **Lobby (homepage):** "The Emberfish Halls", one door per game (art, logo, tagline, pitch, Enter the hall + store button) and the announcement bar. Nothing else: each hall's page has its own activity panels.
+- **Hall page** (`/c/<game>`): the game's banner with its buttons, the announcement bar, the tab row (Forums · Latest · New · Top · In · New Topic), the game's forums in sections (Official / Community / a section per DLC / Help us build it) with hero medallions, and Latest posts (this game only), Support, Forum stats and Share (the hall's link) on the right.
 - **Inside a game** (its forums and topics): a slim banner.
 - **Posts:** classic author panel on the left on desktop, full date in the post's top bar, Staff tag.
 - Players who open /categories land on the lobby. Staff can still use it.
@@ -44,7 +44,7 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |
 | `category_icons` | `forum-help:circle-question`, `forum-feedback:comment` |
-| `lobby_latest_count` | 6 |
+| `latest_count` | 5 (the hall page's Latest posts) |
 | `share_networks` | `x\|reddit\|facebook\|whatsapp\|weibo\|email` |
 | `show_stats`, `hide_profile_location`, `hide_profile_bio`, `content_width` | on, on, off, 1280 |
 
