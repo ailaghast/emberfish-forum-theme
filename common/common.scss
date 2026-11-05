@@ -900,6 +900,124 @@ body.ef-hall-page #banner {
   margin-top: -36px;
 }
 
+// ---------- Newsletter signup (lobby strip and hall banners) ----------
+// The studio newsletter strip under the announcement bar: the same frame,
+// with a gold label where the bar has its crimson News
+.ef-newsletter {
+  @include ef-frame;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin: 0 0 26px;
+  padding: 14px 20px;
+  color: var(--ef-txt-2);
+  font-size: 16px;
+
+  &__tag {
+    @include ef-label(11px, 0.2em);
+    flex-shrink: 0;
+    padding: 3px 12px;
+    border: 1px solid var(--ef-frame);
+    border-radius: 2px;
+    background: rgb(0, 0, 0, 0.3);
+    color: var(--ef-accent);
+    font-weight: 700;
+  }
+
+  &__text {
+    flex: 1 1 280px;
+    margin: 0;
+
+    b {
+      font-weight: 600;
+      color: var(--ef-txt);
+    }
+  }
+
+  .ef-signup {
+    flex: 0 1 460px;
+  }
+}
+
+// The email field and Keep me posted on one row; under them the privacy
+// link, replaced by Kit's answer once there is one
+.ef-signup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    input[type="email"] {
+      @include ef-well;
+      flex: 1 1 160px;
+      min-width: 0;
+      height: 42px;
+      margin: 0;
+      padding: 0 12px;
+      box-sizing: border-box;
+
+      // 16px, or iPhones zoom the page when the field is tapped
+      font-size: 16px;
+      color: var(--ef-txt);
+
+      &::placeholder {
+        color: var(--ef-faint);
+      }
+
+      &:focus {
+        border-color: var(--ef-orange);
+        outline: none;
+        box-shadow:
+          inset 0 2px 10px rgb(0, 0, 0, 0.5),
+          0 0 0 1px rgb(255, 122, 46, 0.35);
+      }
+    }
+
+    .ef-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ef-mut);
+
+    a,
+    a:visited {
+      color: var(--ef-link);
+    }
+
+    &--error {
+      font-weight: 600;
+      color: #ffb4a8;
+    }
+  }
+}
+
+// On the hall banner, Get news by email opens the signup on a row of its
+// own, no wider than the banner's text
+.ef-hall-banner__ctas .ef-signup {
+  flex: 1 1 100%;
+  max-width: 520px;
+
+  .ef-signup__note {
+    color: var(--ef-txt-2);
+    text-shadow: 0 1px 4px #000;
+
+    &--error {
+      color: #ffb4a8;
+    }
+  }
+}
+
 // ---------- Lobby and hall page layout ----------
 .ef-home {
   &__grid {
@@ -2035,6 +2153,16 @@ body.ef-hall-page #list-area {
       width: min(300px, 80vw);
     }
 
+    // An open newsletter signup needs more room than the banner has
+    &:has(.ef-signup) {
+      height: auto;
+      min-height: 300px;
+
+      .ef-hall-banner__content {
+        padding-top: 24px;
+      }
+    }
+
     &--slim {
       height: 104px;
 
@@ -2082,7 +2210,8 @@ body.ef-hall-page #list-area {
     }
   }
 
-  #banner::before {
+  #banner::before,
+  .ef-newsletter__tag {
     display: none;
   }
 }

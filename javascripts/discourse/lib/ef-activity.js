@@ -9,7 +9,7 @@ const CACHE_MS = 60 * 1000;
 const memory = new Map();
 
 // Plain fetch, so the pages depend on as few Discourse internals as possible
-async function getJSON(path) {
+export async function getJSON(path) {
   const response = await fetch(getURL(path), {
     credentials: "same-origin",
     headers: {

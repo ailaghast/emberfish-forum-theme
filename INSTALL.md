@@ -8,8 +8,8 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 
 - **Header:** the Emberfish Games logo, then Forums · Rules · Website ↗.
 - **Halls bar:** Lobby · one tab per game hall · Support.
-- **Lobby (homepage):** a small Emberfish crest (no words), one door per game (art, logo, tagline, pitch, Enter the hall + store button) and the announcement bar. Nothing else: each hall's page has its own activity panels.
-- **Hall page** (`/c/<game>`): the game's banner with its buttons, the announcement bar, the tab row (Forums · Latest · New · Top · In · New Topic), the game's forums in sections (Official / Community / a section per DLC / Help us build it) with hero medallions, and Latest posts (this game only), Support, Forum stats and Share (the hall's link) on the right.
+- **Lobby (homepage):** a small Emberfish crest (no words), one door per game (art, logo, tagline, pitch, Enter the hall + store button), the announcement bar and the newsletter strip for all Emberfish news (an email field and **Keep me posted**). Nothing else: each hall's page has its own activity panels.
+- **Hall page** (`/c/<game>`): the game's banner with its buttons (plus **Get news by email** for the game's own newsletter), the announcement bar, the tab row (Forums · Latest · New · Top · In · New Topic), the game's forums in sections (Official / Community / a section per DLC / Help us build it) with hero medallions, and Latest posts (this game only), Support, Forum stats and Share (the hall's link) on the right.
 - **Inside a game** (its forums and topics): a slim banner.
 - **Posts:** classic author panel on the left on desktop, full date in the post's top bar, Staff tag.
 - Players who open /categories land on the lobby. Staff can still use it.
@@ -48,6 +48,8 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 |---|---|
 | `nav_rules_url`, `nav_website_url` | `/guidelines`, `https://emberfishgames.com` |
 | `hall_details` | `slug;tagline;pitch;button;link;button 2;link 2`, one line per game. Hadean Tactics only |
+| `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Empty: add each game's forum form (below) |
+| `lobby_newsletter` | `bold first words;the rest;Kit form number`: the lobby's newsletter strip, for all Emberfish news. Hidden until the form number is added (below) |
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |
 | `category_icons` | `forum-help:circle-question`, `forum-feedback:comment` |
@@ -60,6 +62,27 @@ Black Flame's line for reveal day:
 ```
 black-flame;Coming 2027 · Free demo out now;Lead your company down the circles and steal the Black Flame.;Wishlist on Steam;https://store.steampowered.com/app/3382760/Hadean_Tactics_Black_Flame/
 ```
+
+### Newsletter signups
+
+Both signups send the address to a Kit form without leaving the forum (Kit accepts posts from other sites and answers in JSON), then show "Almost there! Check your inbox…" in place. Kit sends its usual confirmation email. For a logged-in member, the field fills in their forum email when they click into it, not before, so it never shows on a streamed or shared screen. Nothing is sent until they click **Keep me posted**. If Kit asks for a bot check, the visitor is handed over to Kit's own page to finish.
+
+The settings take a Kit form's **number**: open the form in Kit and copy it from the address (`app.kit.com/forms/designers/NUMBER/edit`), or paste that whole address. Kit's share links (`<name>.kit.com/…`) don't contain it.
+
+Use the **forum** forms, so Kit counts forum signups apart from the website's, demos' and games':
+
+| Form in Kit | Setting |
+|---|---|
+| Black Flame Arena, forum | `hall_newsletter`: `black-flame;NUMBER` |
+| Hadean Tactics, forum | `hall_newsletter`: `hadean-tactics;NUMBER` |
+| Emberfish, forum | `lobby_newsletter`: put the number after the last `;` |
+
+```
+hall_newsletter:   black-flame;NUMBER|hadean-tactics;NUMBER
+lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;NUMBER
+```
+
+A new game's line goes in `hall_newsletter` once the game is public, with its own forum form.
 
 ## Changing the art
 

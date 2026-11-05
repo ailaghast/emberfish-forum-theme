@@ -73,12 +73,35 @@ function hallDetails(themeSettings) {
   return map;
 }
 
+// A Kit form's number, from the number itself or the form's address in Kit
+// (app.kit.com/forms/designers/NUMBER/edit)
+export function kitFormId(value) {
+  const match = String(value || "")
+    .trim()
+    .match(/^(\d+)$|\/forms\/(?:designers\/)?(\d+)/);
+  return match ? match[1] || match[2] : null;
+}
+
+// "slug;Kit form" lines from hall_newsletter
+function newsletterForms(themeSettings) {
+  const map = new Map();
+  splitList(themeSettings.hall_newsletter).forEach((line) => {
+    const [slug, form] = line.split(";").map((s) => (s || "").trim());
+    const formId = kitFormId(form);
+    if (slug && formId) {
+      map.set(slug, formId);
+    }
+  });
+  return map;
+}
+
 // A game hall is a top-level category with a Background image (its banner
 // art). Halls come only from the categories this visitor can see, so a game
 // whose category is staff-only has no hall, tab or door for anyone else.
 // Its art lives in the category's Images, never in the theme's own files.
 export function halls(themeSettings) {
   const details = hallDetails(themeSettings);
+  const newsletters = newsletterForms(themeSettings);
   return Category.list()
     .filter(
       (c) =>
@@ -103,6 +126,8 @@ export function halls(themeSettings) {
         tagline: extra.tagline || "",
         pitch: extra.pitch || category.description_text || "",
         buttons: extra.buttons || [],
+        // Its game's Kit form (a number): the signup on the hall banner only
+        newsletter: newsletters.get(category.slug) || null,
         topicCount: sum("topic_count"),
         postCount: sum("post_count"),
       };

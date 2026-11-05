@@ -3,14 +3,16 @@ import { service } from "@ember/service";
 import { trustHTML } from "@ember/template";
 import { fmtNumber, halls } from "../lib/ef-config";
 import EfAnnouncement from "./ef-announcement";
+import EfNewsletter from "./ef-newsletter";
 
 function cssUrl(url) {
   return `url("${String(url).replace(/["\\\n]/g, encodeURIComponent)}")`;
 }
 
 // The homepage: a small Emberfish crest, one "door" per game hall the
-// visitor can see, then the announcement bar. Latest posts, Support, Forum
-// stats and Share live on each hall's page, next to its forums.
+// visitor can see, then the announcement bar and the studio newsletter strip.
+// Latest posts, Support, Forum stats and Share live on each hall's page, next
+// to its forums.
 export default class EfLobby extends Component {
   @service currentUser;
   @service siteSettings;
@@ -105,5 +107,6 @@ export default class EfLobby extends Component {
     </div>
 
     <EfAnnouncement />
+    <EfNewsletter />
   </template>
 }

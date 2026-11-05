@@ -32,6 +32,8 @@ The two themes keep separate settings. You can try a setting on staging without 
 
 A theme installed from GitHub can't be edited in the admin panel's CSS/HTML editor. Make every change in this folder and push it.
 
+**Imports:** stick to the modules the theme already imports, and use plain browser code where it will do (`fetch`, `setTimeout`, `requestAnimationFrame`). On Odd Pixel's forum (2026-11-03), a newsletter signup that imported `@ember/object/internals` and `@ember/runloop` stopped the whole forum from starting, and the lint check didn't catch it; only the tests do.
+
 **Before every commit**, run the code-style check: `npx -y pnpm@10 lint` (run `npx -y pnpm@10 install` first if `package.json` changed).
 
 ## Changing the art
@@ -43,7 +45,7 @@ The theme's images and fonts (`assets/`), the category images (`../category-imag
 The tests live in `spec/system/`. GitHub runs them in a throwaway Discourse with fake users and topics, so they never touch the real forum.
 
 - `core_features_spec.rb`: Discourse's own check that logging in, profiles and search still work with the theme.
-- `emberfish_spec.rb`: the lobby doors (only for games the visitor can see, and a hidden game appears nowhere in the page), the hall page sections and banners, latest discussions and Forum stats (public forums only), the self-hosted fonts, the /categories redirect for players, the header links and halls bar, the hidden category and tag lists in the menu, and the topic page's date bar and hidden pin notes.
+- `emberfish_spec.rb`: the lobby doors (only for games the visitor can see, and a hidden game appears nowhere in the page), the newsletter signups (lobby strip and hall banners, with Kit's reply stubbed, and a member's email filled in on click), the hall page sections and banners, latest discussions and Forum stats (public forums only), the self-hosted fonts, the /categories redirect for players, the header links and halls bar, the hidden category and tag lists in the menu, and the topic page's date bar and hidden pin notes.
 
 If you change the website link (`nav_website_url`) or the banner button text, update the matching test in `emberfish_spec.rb` in the same commit.
 

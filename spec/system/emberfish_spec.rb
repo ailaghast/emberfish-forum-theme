@@ -43,6 +43,18 @@ RSpec.describe "Emberfish theme" do
     theme.save!
   end
 
+  # Kit's form endpoint answers for the page's newsletter signups, so tests
+  # never reach the real Kit
+  def stub_kit(reply)
+    page.execute_script(<<~JS)
+      const realFetch = window.fetch;
+      window.fetch = (url, options) =>
+        String(url).includes("app.kit.com")
+          ? Promise.resolve(new Response(#{reply.to_json.to_json}))
+          : realFetch(url, options);
+    JS
+  end
+
   describe "lobby" do
     it "shows a door for each game the visitor can see" do
       visit "/"
@@ -89,6 +101,32 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_no_css(".ef-home__grid")
       expect(page).to have_no_css(".ef-support")
       expect(page).to have_no_css(".ef-share")
+    end
+
+    it "signs up from the studio newsletter strip without leaving the forum" do
+      set_theme_setting(:lobby_newsletter, "All our news.;Only big news.;")
+
+      visit "/"
+
+      expect(page).to have_css(".ef-doors")
+      expect(page).to have_no_css(".ef-newsletter")
+
+      set_theme_setting(:lobby_newsletter, "All our news.;Only big news.;123456")
+
+      visit "/"
+
+      expect(page).to have_css(".ef-newsletter", text: /all our news/i)
+      expect(page).to have_css(
+        ".ef-newsletter form[action='https://app.kit.com/forms/123456/subscriptions']",
+      )
+
+      stub_kit(status: "success")
+      find(".ef-newsletter input[type='email']").fill_in(with: "fan@example.com")
+      click_button "Keep me posted"
+
+      expect(page).to have_css(".ef-newsletter .ef-signup__note", text: /check your inbox/i)
+      expect(page).to have_no_css(".ef-newsletter form")
+      expect(page).to have_current_path("/")
     end
 
     it "shows staff no theme errors" do
@@ -140,6 +178,50 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".ef-bar__title a[href='#{dlc.url}']")
       expect(page).to have_css(".ef-forum__name", text: "DLC Talk")
       expect(page).to have_css(".ef-forum__latest", text: "First run with the new hero")
+    end
+
+    it "opens the game's newsletter signup in place of its button, on the banner only" do
+      set_theme_setting(
+        :hall_details,
+        "public-game;Out now;A test pitch.;Buy on Steam;https://store.steampowered.com/app/1/",
+      )
+      # The form's address in Kit works as well as its number
+      set_theme_setting(
+        :hall_newsletter,
+        "public-game;https://app.kit.com/forms/designers/654321/edit",
+      )
+
+      visit game.url
+
+      expect(page).to have_css(".ef-hall-banner__ctas .ef-btn--hot", text: /buy on steam/i)
+      expect(page).to have_css(
+        ".ef-hall-banner__ctas .ef-btn--line:last-child",
+        text: /get news by email/i,
+      )
+
+      click_button "Get news by email"
+
+      expect(page).to have_css(
+        ".ef-hall-banner__ctas form[action='https://app.kit.com/forms/654321/subscriptions']",
+      )
+      expect(page).to have_css(".ef-hall-banner__ctas input[type='email']:focus")
+      expect(page).to have_no_button("Get news by email")
+
+      visit "/"
+
+      expect(page).to have_css(".ef-door")
+      expect(page).to have_no_css(".ef-door .ef-signup")
+      expect(page).to have_no_button("Get news by email")
+    end
+
+    it "fills in a member's forum email when they click into the field" do
+      set_theme_setting(:hall_newsletter, "public-game;654321")
+      sign_in(user)
+
+      visit game.url
+      click_button "Get news by email"
+
+      expect(page).to have_field(type: "email", with: user.email)
     end
 
     it "lists the hall's latest posts on the right" do

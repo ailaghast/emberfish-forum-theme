@@ -1,10 +1,14 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { trustHTML } from "@ember/template";
 import getURL from "discourse/lib/get-url";
 import Category from "discourse/models/category";
 import dConcatClass from "discourse/ui-kit/helpers/d-concat-class";
 import { findTopLevel, hallFor, halls, isWithin } from "../lib/ef-config";
+import EfSignup from "./ef-signup";
 
 function cssUrl(url) {
   return `url("${String(url).replace(/["\\\n]/g, encodeURIComponent)}")`;
@@ -16,6 +20,9 @@ function cssUrl(url) {
 export default class EfHallChrome extends Component {
   @service router;
   @service discovery;
+
+  // The hall whose Get news by email button was clicked
+  @tracked signupHallId = null;
 
   get hidden() {
     const name = this.router.currentRouteName || "";
@@ -71,6 +78,28 @@ export default class EfHallChrome extends Component {
       this.router.currentRouteName === "discovery.category" &&
       this.currentCategory?.id === this.hall?.id
     );
+  }
+
+  // The hall banner's buttons: the store ones from hall_details (the first
+  // one crimson), then Get news by email, which opens the game's newsletter
+  // signup in its place
+  get hasCtas() {
+    return this.hall.buttons.length > 0 || !!this.hall.newsletter;
+  }
+
+  get signupOpen() {
+    return this.signupHallId === this.hall?.id;
+  }
+
+  get newsletterClass() {
+    return this.hall.buttons.length
+      ? "ef-btn ef-btn--line"
+      : "ef-btn ef-btn--hot";
+  }
+
+  @action
+  openSignup() {
+    this.signupHallId = this.hall.id;
   }
 
   get bannerStyle() {
@@ -143,7 +172,7 @@ export default class EfHallChrome extends Component {
                     class="ef-gem"
                   ></span>{{this.hall.tagline}}</span>
               {{/if}}
-              {{#if this.hall.buttons.length}}
+              {{#if this.hasCtas}}
                 <div class="ef-hall-banner__ctas">
                   {{#each this.hall.buttons as |cta index|}}
                     <a
@@ -157,6 +186,20 @@ export default class EfHallChrome extends Component {
                       rel="noopener noreferrer"
                     >{{cta.label}}</a>
                   {{/each}}
+                  {{#if this.hall.newsletter}}
+                    {{#if this.signupOpen}}
+                      <EfSignup
+                        @formId={{this.hall.newsletter}}
+                        @autofocus={{true}}
+                      />
+                    {{else}}
+                      <button
+                        type="button"
+                        class={{this.newsletterClass}}
+                        {{on "click" this.openSignup}}
+                      >Get news by email</button>
+                    {{/if}}
+                  {{/if}}
                 </div>
               {{/if}}
             {{/if}}
