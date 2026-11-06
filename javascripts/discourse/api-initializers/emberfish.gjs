@@ -8,7 +8,7 @@ import EfHeaderNav from "../components/ef-header-nav";
 import EfLobby from "../components/ef-lobby";
 import EfPostDate from "../components/ef-post-date";
 import EfPoweredBy from "../components/ef-powered-by";
-import { hallFor, halls } from "../lib/ef-config";
+import { hallFor, halls, kitFormId, sendToKit } from "../lib/ef-config";
 
 // Width of the timeline column next to the posts (see "Topic page" in
 // common.scss)
@@ -80,6 +80,38 @@ export default apiInitializer((api) => {
     settings.hide_profile_location
   );
   document.body.classList.toggle("ef-hide-bio", settings.hide_profile_bio);
+
+  // A new account with the Newsletter box ticked is signed up to the
+  // signup_newsletter Kit form, which sends its usual confirmation email.
+  // This waits until the account exists (the page reloads right after) and
+  // gives Kit 4 seconds at most, so a slow reply never holds up signup.
+  const [fieldName, signupForm] = (settings.signup_newsletter || "")
+    .split(";")
+    .map((s) => s.trim());
+  const signupFormId = kitFormId(signupForm);
+  const newsletterField = (site.user_fields || []).find(
+    (f) => f.name === fieldName && f.field_type === "confirm"
+  );
+  if (signupFormId && newsletterField) {
+    api.registerBehaviorTransformer(
+      "create-account",
+      async ({ next, context: { data } }) => {
+        const result = await next();
+        const ticked = [true, "true"].includes(
+          data.user_fields?.[newsletterField.id]
+        );
+        if (result?.success && ticked && data.email) {
+          await Promise.race([
+            sendToKit(signupFormId, data.email, window.location.href).catch(
+              () => {}
+            ),
+            new Promise((resolve) => setTimeout(resolve, 4000)),
+          ]);
+        }
+        return result;
+      }
+    );
+  }
 
   // Each hall's color, and its icon in place of the colored square wherever
   // the hall's category is named (breadcrumbs, topic lists, the composer's
