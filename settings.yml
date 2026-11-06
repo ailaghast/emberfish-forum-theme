@@ -22,12 +22,12 @@ hall_details:
 hall_newsletter:
   type: list
   list_type: simple
-  default: ""
+  default: "black-flame;10145451|hadean-tactics;10145464"
   description: "A Get news by email button for each game hall's banner, one line per game: category-slug;the number of that game's forum Kit form. Clicking it opens an email field in its place, which signs up to that form without leaving the forum. The number is in the form's address in Kit (app.kit.com/forms/designers/NUMBER/edit); pasting that address works too, but Kit's share links don't. The button comes after the hall_details buttons and doesn't show on the lobby door. A game without a line gets no button. Like hall_details, add a game's line only when the game is public."
 
 lobby_newsletter:
   type: string
-  default: "The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;"
+  default: "The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;10145476"
   description: "The newsletter strip on the lobby, under the announcement bar, for news about all of Emberfish Games' games: bold first words;the rest of the sentence;the number of the studio's forum Kit form. It has an email field and a Keep me posted button that sign up without leaving the forum. The number is in the form's address in Kit (app.kit.com/forms/designers/NUMBER/edit); pasting that address works too, but Kit's share links don't. It shows only once there's a form, and visitors can't close it. Don't use ; inside the text. Each game's own form is hall_newsletter."
 
 support_category:

@@ -48,8 +48,8 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 |---|---|
 | `nav_rules_url`, `nav_website_url` | `/guidelines`, `https://emberfishgames.com` |
 | `hall_details` | `slug;tagline;pitch;button;link;button 2;link 2`, one line per game. Hadean Tactics only |
-| `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Empty: add each game's forum form (below) |
-| `lobby_newsletter` | `bold first words;the rest;Kit form number`: the lobby's newsletter strip, for all Emberfish news. Hidden until the form number is added (below) |
+| `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Black Flame Arena and Hadean Tactics forum forms (below) |
+| `lobby_newsletter` | `bold first words;the rest;Kit form number`: the lobby's newsletter strip, for all Emberfish news. The Emberfish forum form (below). Hidden without a form |
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |
 | `category_icons` | `forum-help:circle-question`, `forum-feedback:comment` |
@@ -67,19 +67,19 @@ black-flame;Coming 2027 · Free demo out now;Lead your company down the circles 
 
 Both signups send the address to a Kit form without leaving the forum (Kit accepts posts from other sites and answers in JSON), then show "Almost there! Check your inbox…" in place. Kit sends its usual confirmation email. For a logged-in member, the field fills in their forum email when they click into it, not before, so it never shows on a streamed or shared screen. Nothing is sent until they click **Keep me posted**. If Kit asks for a bot check, the visitor is handed over to Kit's own page to finish.
 
-The settings take a Kit form's **number**: open the form in Kit and copy it from the address (`app.kit.com/forms/designers/NUMBER/edit`), or paste that whole address. Kit's share links (`<name>.kit.com/…`) don't contain it.
+The settings take a Kit form's **number**: open the form in Kit and copy it from the address (`app.kit.com/forms/designers/NUMBER/edit`), or paste that whole address. Kit's share links (`emberfish-games.kit.com/…`) don't contain it, but the script their page loads (`emberfish-games.kit.com/<code>/index.js`) does, in `forms/NUMBER/subscriptions`.
 
-Use the **forum** forms, so Kit counts forum signups apart from the website's, demos' and games':
+The defaults already have the forum forms, so Kit counts forum signups apart from the website's, demos' and games':
 
-| Form in Kit | Setting |
-|---|---|
-| Black Flame Arena, forum | `hall_newsletter`: `black-flame;NUMBER` |
-| Hadean Tactics, forum | `hall_newsletter`: `hadean-tactics;NUMBER` |
-| Emberfish, forum | `lobby_newsletter`: put the number after the last `;` |
+| Form in Kit | Number | Share link | Setting |
+|---|---|---|---|
+| Black Flame Arena, forum | 10145451 | `emberfish-games.kit.com/4635222ff3` | `hall_newsletter` |
+| Hadean Tactics, forum | 10145464 | `emberfish-games.kit.com/cc9844a691` | `hall_newsletter` |
+| Emberfish, forum | 10145476 | `emberfish-games.kit.com/fd75368ae9` | `lobby_newsletter` |
 
 ```
-hall_newsletter:   black-flame;NUMBER|hadean-tactics;NUMBER
-lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;NUMBER
+hall_newsletter:   black-flame;10145451|hadean-tactics;10145464
+lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;10145476
 ```
 
 A new game's line goes in `hall_newsletter` once the game is public, with its own forum form.
