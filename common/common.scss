@@ -703,10 +703,12 @@ body.ef-hall-page #header-list-area {
   gap: 14px;
   margin: 26px 0 40px;
 
+  // Now and then the mark turns once, glowing brighter as it goes
   &__mark {
     width: auto;
     height: 46px;
     filter: drop-shadow(0 0 12px rgb(255, 100, 40, 0.35));
+    animation: ef-spin 12s 3s infinite;
   }
 
   &__line {
@@ -717,6 +719,30 @@ body.ef-hall-page #header-list-area {
     &--right {
       background: linear-gradient(90deg, var(--ef-frame), transparent);
     }
+  }
+}
+
+@keyframes ef-spin {
+  0% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 12px rgb(255, 100, 40, 0.35));
+    animation-timing-function: cubic-bezier(0.6, 0, 0.3, 1);
+  }
+
+  6% {
+    filter: drop-shadow(0 0 18px rgb(255, 120, 50, 0.7));
+  }
+
+  12%,
+  100% {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 0 12px rgb(255, 100, 40, 0.35));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ef-crest__mark {
+    animation: none;
   }
 }
 
