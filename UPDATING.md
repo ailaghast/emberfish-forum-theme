@@ -45,7 +45,7 @@ The theme's images and fonts (`assets/`), the category images (`../category-imag
 The tests live in `spec/system/`. GitHub runs them in a throwaway Discourse with fake users and topics, so they never touch the real forum.
 
 - `core_features_spec.rb`: Discourse's own check that logging in, profiles and search still work with the theme.
-- `emberfish_spec.rb`: the lobby doors (only for games the visitor can see, and a hidden game appears nowhere in the page), the newsletter signups (lobby strip and hall banners, with Kit's reply stubbed, and a member's email filled in on click), the Newsletter checkbox at signup (a ticked box sends the new account's email to Kit, an unticked one sends nothing), the hall page sections and banners, latest discussions and Forum stats (public forums only), the self-hosted fonts, the /categories redirect for players, the header links and halls bar, the hidden category and tag lists in the menu, and the topic page's date bar and hidden pin notes.
+- `emberfish_spec.rb`: the lobby doors (only for games the visitor can see, and a hidden game appears nowhere in the page), the newsletter signups (lobby strip and hall banners, with Kit's reply stubbed, and a member's email filled in on click), the hall page sections and banners, latest discussions and Forum stats (public forums only), the self-hosted fonts, the /categories redirect for players, the header links and halls bar, the hidden category and tag lists in the menu, and the topic page's date bar and hidden pin notes.
 
 If you change the website link (`nav_website_url`) or the banner button text, update the matching test in `emberfish_spec.rb` in the same commit.
 

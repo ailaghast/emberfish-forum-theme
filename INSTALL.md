@@ -50,7 +50,6 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 | `hall_details` | `slug;tagline;pitch;button;link;button 2;link 2`, one line per game. Hadean Tactics only |
 | `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Black Flame Arena and Hadean Tactics forum forms (below) |
 | `lobby_newsletter` | `bold first words;the rest;Kit form number`: the lobby's newsletter strip, for all Emberfish news. The Emberfish forum form (below). Hidden without a form |
-| `signup_newsletter` | `user field name;Kit form number`: where a new account with the **Newsletter** box ticked is signed up. The Emberfish forum form (below). Without a number, the box sends nothing to Kit |
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |
 | `category_icons` | `forum-help:circle-question`, `forum-feedback:comment` |
@@ -76,22 +75,14 @@ The defaults already have the forum forms, so Kit counts forum signups apart fro
 |---|---|---|---|
 | Black Flame Arena, forum | 10145451 | `emberfish-games.kit.com/4635222ff3` | `hall_newsletter` |
 | Hadean Tactics, forum | 10145464 | `emberfish-games.kit.com/cc9844a691` | `hall_newsletter` |
-| Emberfish, forum | 10145476 | `emberfish-games.kit.com/fd75368ae9` | `lobby_newsletter`, `signup_newsletter` |
+| Emberfish, forum | 10145476 | `emberfish-games.kit.com/fd75368ae9` | `lobby_newsletter` |
 
 ```
 hall_newsletter:   black-flame;10145451|hadean-tactics;10145464
 lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;10145476
-signup_newsletter: Newsletter;10145476
 ```
 
 A new game's line goes in `hall_newsletter` once the game is public, with its own forum form.
-
-**The signup checkbox.** When someone creates an account (by email or with Google) with **Newsletter** ticked, the browser sends their address to the `signup_newsletter` form once the account exists, just before the page moves on, and Kit sends its confirmation email. Kit records the signup page as the referrer, so in Kit checkbox signups show `/signup` and lobby-strip signups show the lobby. It waits 4 seconds at most for Kit, then lets signup go on. Two cases still need you:
-
-- **Unticking later.** Kit's free plan has no API, so the forum can't unsubscribe anyone. Before each send, export the users (Admin → Users → Export, which lists the Newsletter field) and unsubscribe in Kit anyone who has since unticked it. Never re-add anyone who unsubscribed in Kit.
-- **Missed signups.** If Kit asks for a bot check, or can't be reached in time, that address isn't sent (signup itself still works). The same export shows who ticked the box. Add anyone missing in Kit by hand, as an import.
-
-The field is found by its name (`Newsletter`, a checkbox user field), so renaming the field means changing the setting too.
 
 ## Changing the art
 

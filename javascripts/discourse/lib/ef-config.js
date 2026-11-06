@@ -82,26 +82,6 @@ export function kitFormId(value) {
   return match ? match[1] || match[2] : null;
 }
 
-// Where a Kit form takes signups. Kit takes posts from any site and replies
-// in JSON ({ status: "success" | "quarantined" | "failed", errors }).
-export function kitFormAction(formId) {
-  return `https://app.kit.com/forms/${formId}/subscriptions`;
-}
-
-// Signs an address up to a Kit form, as the form itself would; Kit then sends
-// its confirmation email. Resolves to Kit's reply.
-export async function sendToKit(formId, email, referrer) {
-  const body = new FormData();
-  body.append("email_address", email);
-  body.append("referrer", referrer);
-  const response = await fetch(kitFormAction(formId), {
-    method: "POST",
-    body,
-    headers: { Accept: "application/json" },
-  });
-  return response.json();
-}
-
 // "slug;Kit form" lines from hall_newsletter
 function newsletterForms(themeSettings) {
   const map = new Map();

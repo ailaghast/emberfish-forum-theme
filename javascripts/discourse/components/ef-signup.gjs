@@ -5,7 +5,6 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import getURL from "discourse/lib/get-url";
 import { getJSON } from "../lib/ef-activity";
-import { kitFormAction } from "../lib/ef-config";
 
 const NOT_AN_EMAIL = "That doesn’t look like an email address.";
 
@@ -42,7 +41,7 @@ export default class EfSignup extends Component {
   }
 
   get formAction() {
-    return kitFormAction(this.args.formId);
+    return `https://app.kit.com/forms/${this.args.formId}/subscriptions`;
   }
 
   // Kit keeps the page each subscriber signed up on
