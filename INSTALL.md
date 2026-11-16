@@ -32,7 +32,8 @@ A top-level category becomes a **game hall** as soon as it has a **Background im
 |---|---|---|
 | Logo image | Square icon: halls bar, topic chips, category badges | `<game> - Logo (icon).png` |
 | Dark logo image | The game's wordmark: banner and lobby door | `<game> - Dark logo (wordmark).webp` |
-| Background image | Banner art: hall banner and lobby door | `<game> - Background (banner).webp` |
+| Background image | Banner art: lobby door, and the hall banner unless the next field is set | `<game> - Background (banner).webp` |
+| Dark background image (optional) | The hall banner's own art, when the door's art puts something important where the hall banner's wordmark and dark fade sit (the left side). Black Flame Tactics uses it | `<game> - Hall banner.webp` |
 
 Each **subcategory**'s Logo image is its medallion (`<slug> - Logo.webp`). Subcategories without one show an icon (`category_icons` setting).
 
@@ -48,7 +49,7 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 |---|---|
 | `nav_rules_url`, `nav_website_url` | `/guidelines`, `https://emberfishgames.com` |
 | `hall_details` | `slug;tagline;pitch;button;link;button 2;link 2`, one line per game. Hadean Tactics only |
-| `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Black Flame Arena and Hadean Tactics forum forms (below) |
+| `hall_newsletter` | `slug;Kit form number`, one line per game: a **Get news by email** button on the hall banner (not on the lobby door) that opens the game's signup in place. Black Flame Tactics and Hadean Tactics forum forms (below) |
 | `lobby_newsletter` | `bold first words;the rest;Kit form number`: the lobby's newsletter strip, for all Emberfish news. The Emberfish forum form (below). Hidden without a form |
 | `support_category` | `support` |
 | `hall_sections` | `Section;slug,slug`, one line per section, shared by all games. A line that is just `*` is where DLC sections go |
@@ -57,10 +58,10 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 | `share_networks` | `x\|reddit\|facebook\|whatsapp\|weibo\|email` |
 | `show_stats`, `hide_profile_location`, `hide_profile_bio`, `content_width` | on, on, off, 1280 |
 
-Black Flame's line for reveal day:
+Black Flame Tactics' line for reveal day:
 
 ```
-black-flame;Coming 2027 · Free demo out now;Lead your company down the circles and steal the Black Flame.;Wishlist on Steam;https://store.steampowered.com/app/3382760/Hadean_Tactics_Black_Flame/
+black-flame;Coming 2027 · Free demo out now;The Black Flame burns at the bottom of the world, and you're going down to steal it.;Wishlist on Steam;https://store.steampowered.com/app/3382760/Black_Flame_Tactics/
 ```
 
 ### Newsletter signups
@@ -73,13 +74,13 @@ The defaults already have the forum forms, so Kit counts forum signups apart fro
 
 | Form in Kit | Number | Share link | Setting |
 |---|---|---|---|
-| Black Flame Arena, forum | 10145451 | `emberfish-games.kit.com/4635222ff3` | `hall_newsletter` |
+| Black Flame Arena, forum (the game's old working name; rename it in Kit to Black Flame Tactics) | 10145451 | `emberfish-games.kit.com/4635222ff3` | `hall_newsletter` |
 | Hadean Tactics, forum | 10145464 | `emberfish-games.kit.com/cc9844a691` | `hall_newsletter` |
 | Emberfish, forum | 10145476 | `emberfish-games.kit.com/fd75368ae9` | `lobby_newsletter` |
 
 ```
 hall_newsletter:   black-flame;10145451|hadean-tactics;10145464
-lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games. Only the big moments.;10145476
+lobby_newsletter:  The big dates, by email.;Demos, playtests, launches and big sales for all our games.;10145476
 ```
 
 A new game's line goes in `hall_newsletter` once the game is public, with its own forum form.
