@@ -263,6 +263,18 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".topic-list", text: topic.title)
       expect(page).to have_no_css(".ef-forum")
     end
+
+    it "uses the Dark background image for the hall banner only" do
+      door_art = game.uploaded_background
+      hall_art = Fabricate(:upload)
+      game.update!(uploaded_background_dark: hall_art)
+
+      visit game.url
+      expect(find(".ef-hall-banner")[:style]).to include(hall_art.url)
+
+      visit "/"
+      expect(find(".ef-door__art[href='#{game.url}']")[:style]).to include(door_art.url)
+    end
   end
 
   describe "fonts" do

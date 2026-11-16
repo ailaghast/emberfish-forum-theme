@@ -122,7 +122,14 @@ export function halls(themeSettings) {
         color: `#${category.color}`,
         icon: uploadUrl(category.uploaded_logo),
         wordmark: uploadUrl(category.uploaded_logo_dark),
+        // The lobby door's art
         banner: uploadUrl(category.uploaded_background),
+        // The hall banner's art: the "Dark background image" when the game
+        // has one (for art that needs a different crop behind the wordmark
+        // on the left), else the same art as the door
+        hallBanner:
+          uploadUrl(category.uploaded_background_dark) ||
+          uploadUrl(category.uploaded_background),
         tagline: extra.tagline || "",
         pitch: extra.pitch || category.description_text || "",
         buttons: extra.buttons || [],

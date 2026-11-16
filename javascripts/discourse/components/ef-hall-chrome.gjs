@@ -103,7 +103,7 @@ export default class EfHallChrome extends Component {
   }
 
   get bannerStyle() {
-    return trustHTML(`--ef-banner: ${cssUrl(this.hall.banner)}`);
+    return trustHTML(`--ef-banner: ${cssUrl(this.hall.hallBanner)}`);
   }
 
   get homeUrl() {
