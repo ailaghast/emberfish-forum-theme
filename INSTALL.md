@@ -61,7 +61,7 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 Black Flame Tactics' line for reveal day:
 
 ```
-black-flame;Coming 2027 · Free demo out now;The Black Flame burns at the bottom of the world, and you're going down to steal it.;Wishlist on Steam;https://store.steampowered.com/app/3382760/Black_Flame_Tactics/
+black-flame;Coming 2027 · Free demo out now;Build your party and lead it to the bottom of the world, where the Black Flame burns.;Wishlist on Steam;https://store.steampowered.com/app/3382760/Black_Flame_Tactics/
 ```
 
 ### Newsletter signups
