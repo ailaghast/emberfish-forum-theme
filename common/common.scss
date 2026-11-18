@@ -859,6 +859,7 @@ body.ef-hall-page #header-list-area {
   gap: 16px;
   margin: 0 0 26px;
   padding: 14px 20px;
+
   // Core sets overflow: auto + max-height: 20vh, and the frame's corner
   // ornaments reach 9px outside the box, so the bar showed scrollbars.
   max-height: none;
