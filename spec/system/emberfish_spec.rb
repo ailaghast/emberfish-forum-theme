@@ -294,6 +294,25 @@ RSpec.describe "Emberfish theme" do
     end
   end
 
+  describe "colors" do
+    # The panels are built on the palette's hover color. When Discourse
+    # renamed its variable, they and the composer turned see-through with
+    # no error anywhere, and the page showed through the composer.
+    it "keeps the panels and the composer solid" do
+      sign_in(user)
+      visit "/latest"
+      find("#create-topic").click
+
+      expect(page).to have_css("#reply-control.open")
+      root = "getComputedStyle(document.documentElement)"
+      %w[--ef-panel-1 --ef-panel-2 --ef-bar-bg].each do |name|
+        expect(page.evaluate_script("#{root}.getPropertyValue('#{name}').trim()")).to be_present
+      end
+      composer = "getComputedStyle(document.querySelector('#reply-control'))"
+      expect(page.evaluate_script("#{composer}.backgroundColor")).not_to eq("rgba(0, 0, 0, 0)")
+    end
+  end
+
   describe "fonts" do
     it "loads them from the forum, not Google Fonts" do
       visit "/"

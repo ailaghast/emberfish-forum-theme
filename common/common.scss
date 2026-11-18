@@ -76,12 +76,15 @@ $ef-corner-svg: "%3Cpath fill-rule='evenodd' d='M9 2 16 9 9 16 2 9zM9 5.5 12.5 9
 // Surfaces and frames come from the color palette (Ashen Gate or Slate, see
 // about.json): secondary is the page, hover the lightest panel, highlight
 // the gold of the frames. Switching the theme's palette switches the look.
+// Discourse now names the palette's hover color --d-hover. It was --hover,
+// and when that went away every panel and the composer turned see-through.
 :root {
+  --ef-hover: var(--d-hover, var(--hover));
   --ef-page: var(--secondary);
-  --ef-panel-1: var(--hover);
-  --ef-panel-2: color-mix(in srgb, var(--secondary), var(--hover));
+  --ef-panel-1: var(--ef-hover);
+  --ef-panel-2: color-mix(in srgb, var(--secondary), var(--ef-hover));
   --ef-well: var(--secondary);
-  --ef-bar-bg: color-mix(in srgb, var(--secondary) 70%, var(--hover));
+  --ef-bar-bg: color-mix(in srgb, var(--secondary) 70%, var(--ef-hover));
   --ef-shade: color-mix(in srgb, var(--secondary) 60%, #000);
   --ef-txt: #eee4cf;
   --ef-txt-2: #d2c6ad;
@@ -168,7 +171,7 @@ html {
   background-color: var(--ef-page);
   background-image: radial-gradient(
     ellipse 60% 520px at 50% 0,
-    var(--hover),
+    var(--ef-hover),
     transparent 70%
   );
   background-repeat: no-repeat;
@@ -1203,7 +1206,7 @@ body.ef-hall-page #list-area {
   &--icon {
     background: radial-gradient(
       circle at 50% 30%,
-      var(--hover),
+      var(--ef-hover),
       var(--ef-shade) 75%
     );
   }
