@@ -41,24 +41,28 @@ function readStored(key) {
   return null;
 }
 
-// Only the parts the pages use are kept
+// Only the parts the pages use are kept. Unlisted topics (the "About the …
+// category" topics, the banner topic) are left out: players never get them,
+// and staff, whose lists include them, shouldn't see them here either.
 function slimList(json) {
   return {
     users: (json.users || []).map((u) => ({
       username: u.username,
       avatar_template: u.avatar_template,
     })),
-    topics: (json.topic_list?.topics || []).map((t) => ({
-      id: t.id,
-      slug: t.slug,
-      title: t.title,
-      category_id: t.category_id,
-      posts_count: t.posts_count,
-      highest_post_number: t.highest_post_number,
-      last_posted_at: t.last_posted_at,
-      bumped_at: t.bumped_at,
-      last_poster_username: t.last_poster_username,
-    })),
+    topics: (json.topic_list?.topics || [])
+      .filter((t) => t.visible !== false)
+      .map((t) => ({
+        id: t.id,
+        slug: t.slug,
+        title: t.title,
+        category_id: t.category_id,
+        posts_count: t.posts_count,
+        highest_post_number: t.highest_post_number,
+        last_posted_at: t.last_posted_at,
+        bumped_at: t.bumped_at,
+        last_poster_username: t.last_poster_username,
+      })),
   };
 }
 

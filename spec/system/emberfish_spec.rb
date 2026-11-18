@@ -230,6 +230,23 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".ef-home__aside .ef-latest-item", text: topic.title)
     end
 
+    it "leaves unlisted topics out of the hall, even for staff" do
+      unlisted =
+        Fabricate(
+          :topic_with_op,
+          category: news,
+          title: "An unlisted topic about News",
+          visible: false,
+        )
+
+      sign_in(admin)
+      visit game.url
+
+      expect(page).to have_css(".ef-home__aside .ef-latest-item", text: topic.title)
+      expect(page).to have_no_css(".ef-home__aside .ef-latest-item", text: unlisted.title)
+      expect(page).to have_no_css(".ef-forum__latest", text: unlisted.title)
+    end
+
     it "shows the Support forums" do
       visit game.url
 
