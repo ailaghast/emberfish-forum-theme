@@ -61,6 +61,7 @@ The tagline, pitch and store buttons come from the `hall_details` setting, one l
 | `latest_count` | 5 (the hall page's Latest posts) |
 | `share_networks` | `x\|reddit\|facebook\|whatsapp\|weibo\|email` |
 | `show_stats`, `hide_profile_location`, `hide_profile_bio`, `content_width` | on, on, off, 1280 |
+| `profile_website_label`, `profile_website_hint` | `Channel or profile`, `Your Twitch, YouTube, Kick, TikTok, Bilibili, X or Steam profile link.` (the Web Site field in profile settings; keep the hint in step with `allowed user website domains`) |
 
 Black Flame Tactics' line for reveal day:
 

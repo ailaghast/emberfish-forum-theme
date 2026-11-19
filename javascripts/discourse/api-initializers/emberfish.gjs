@@ -1,6 +1,7 @@
 import { apiInitializer } from "discourse/lib/api";
 import getURL from "discourse/lib/get-url";
 import { categoryBadgeHTML } from "discourse/ui-kit/helpers/d-category-link";
+import I18n from "discourse-i18n";
 import EfBrand from "../components/ef-brand";
 import EfHallChrome from "../components/ef-hall-chrome";
 import EfHallHome from "../components/ef-hall-home";
@@ -80,6 +81,18 @@ export default apiInitializer((api) => {
     settings.hide_profile_location
   );
   document.body.classList.toggle("ef-hide-bio", settings.hide_profile_bio);
+
+  // The Web Site field's name in profile settings (profile_website_label).
+  // Its line underneath is in common.scss. Written into the loaded English
+  // text the way Customize → Text overrides are, so other languages keep
+  // their own name.
+  const locale = I18n.currentLocale();
+  if (settings.profile_website_label && locale.startsWith("en")) {
+    I18n.translations[locale] ??= {};
+    I18n.translations[locale].js ??= {};
+    I18n.translations[locale].js.user ??= {};
+    I18n.translations[locale].js.user.website = settings.profile_website_label;
+  }
 
   // Each hall's color, and its icon in place of the colored square wherever
   // the hall's category is named (breadcrumbs, topic lists, the composer's

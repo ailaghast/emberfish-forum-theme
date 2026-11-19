@@ -2270,6 +2270,20 @@ body.ef-hall-page #list-area {
   }
 }
 
+// The line under the Web Site field (profile_website_hint), styled like
+// core's instructions under other profile fields. Its name is set in the
+// initializer.
+@if $profile_website_hint != "" {
+  .pref-website .controls::after {
+    content: "#{$profile_website_hint}";
+    display: block;
+    margin-top: 0.25em;
+    color: var(--primary-medium);
+    font-size: var(--font-down-1);
+    line-height: var(--line-height-large);
+  }
+}
+
 // When the main column gets narrow (for example with the left sidebar open),
 // drop the Posts column so names and descriptions keep their room. Desktop
 // only: phones have their own layout (see Mobile, above).

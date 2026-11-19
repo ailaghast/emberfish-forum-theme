@@ -80,6 +80,16 @@ hide_profile_bio:
   default: false
   description: "Hide the About me (bio) field from profile settings, profiles and user cards."
 
+profile_website_label:
+  type: string
+  default: "Channel or profile"
+  description: "Name of Discourse's Web Site field in profile settings. The allowed user website domains site setting only takes streaming sites, X and Steam, so the field is named after them. English only: other languages keep their own name. Leave blank for Discourse's name."
+
+profile_website_hint:
+  type: string
+  default: "Your Twitch, YouTube, Kick, TikTok, Bilibili, X or Steam profile link."
+  description: "Line under the Web Site field in profile settings. Keep it in step with the allowed user website domains site setting, since Discourse turns down links to any other site. Leave blank for none."
+
 content_width:
   type: integer
   default: 1280

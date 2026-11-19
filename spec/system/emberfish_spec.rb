@@ -374,6 +374,17 @@ RSpec.describe "Emberfish theme" do
     end
   end
 
+  describe "profile settings" do
+    it "names the Web Site field after the links it takes" do
+      sign_in(user)
+      visit "/u/#{user.username}/preferences/profile"
+
+      expect(page).to have_css(".pref-website label", text: "Channel or profile")
+      hint = "getComputedStyle(document.querySelector('.pref-website .controls'), '::after').content"
+      expect(page.evaluate_script(hint)).to include("Twitch, YouTube")
+    end
+  end
+
   describe "topic page" do
     it "shows the full date in the post's top bar" do
       visit topic.url
