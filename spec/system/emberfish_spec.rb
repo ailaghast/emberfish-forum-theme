@@ -385,6 +385,57 @@ RSpec.describe "Emberfish theme" do
     end
   end
 
+  describe "unsaved preferences" do
+    let(:checkbox) { "[data-setting-name='user-email-in-reply-to'] input[type='checkbox']" }
+    let(:emails_path) { "/u/#{user.username}/preferences/emails" }
+    let(:account_path) { "/u/#{user.username}/preferences/account" }
+
+    before do
+      sign_in(user)
+      visit emails_path
+      expect(page).to have_css(checkbox)
+    end
+
+    it "asks before leaving, and puts the old value back on Discard" do
+      before_value = user.user_option.email_in_reply_to
+      find(checkbox).click
+      find(".user-nav__preferences-account a").click
+
+      expect(page).to have_css(".dialog-body", text: "You haven't saved your changes")
+      find(".ef-keep-editing").click
+      expect(page).to have_current_path(emails_path)
+      expect(find(checkbox).checked?).to eq(!before_value)
+
+      find(".user-nav__preferences-account a").click
+      find(".ef-discard-changes").click
+      expect(page).to have_current_path(account_path)
+
+      find(".user-nav__preferences-emails a").click
+      expect(page).to have_current_path(emails_path)
+      expect(find(checkbox).checked?).to eq(before_value)
+      expect(user.user_option.reload.email_in_reply_to).to eq(before_value)
+    end
+
+    it "lets the player leave after Save Changes" do
+      before_value = user.user_option.email_in_reply_to
+      find(checkbox).click
+      find(".save-changes").click
+      expect(page).to have_css(".saved")
+
+      find(".user-nav__preferences-account a").click
+      expect(page).to have_current_path(account_path)
+      expect(page).to have_no_css(".dialog-body")
+      expect(user.user_option.reload.email_in_reply_to).to eq(!before_value)
+    end
+
+    it "lets the player leave a page they didn't change" do
+      find(".user-nav__preferences-account a").click
+
+      expect(page).to have_current_path(account_path)
+      expect(page).to have_no_css(".dialog-body")
+    end
+  end
+
   describe "topic page" do
     it "shows the full date in the post's top bar" do
       visit topic.url

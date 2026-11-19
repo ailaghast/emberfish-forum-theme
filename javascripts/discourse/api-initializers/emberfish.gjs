@@ -10,6 +10,7 @@ import EfLobby from "../components/ef-lobby";
 import EfPostDate from "../components/ef-post-date";
 import EfPoweredBy from "../components/ef-powered-by";
 import { hallFor, halls } from "../lib/ef-config";
+import guardUnsavedPreferences from "../lib/ef-unsaved-preferences";
 
 // Width of the timeline column next to the posts (see "Topic page" in
 // common.scss)
@@ -93,6 +94,9 @@ export default apiInitializer((api) => {
     I18n.translations[locale].js.user ??= {};
     I18n.translations[locale].js.user.website = settings.profile_website_label;
   }
+
+  // Preference pages ask before the player leaves with unsaved changes
+  guardUnsavedPreferences(api);
 
   // Each hall's color, and its icon in place of the colored square wherever
   // the hall's category is named (breadcrumbs, topic lists, the composer's
