@@ -2320,9 +2320,14 @@ body.ef-hall-page #list-area {
 // - Users: only when it would be empty (body class set in the initializer).
 //   Muted shows from trust level 1, Ignored from trust level 2, and the
 //   message choices only to those who can send messages (staff here).
-.user-nav__preferences-calendar-subscriptions,
-.user-nav__preferences-navigation-menu,
-.ef-users-prefs-empty .user-nav__preferences-users {
+// Core shows every tab with `.nav-pills > li { display: flex }`, which beat
+// the tab's class alone, so these add the menu around it too.
+.user-navigation .nav-pills > li.user-nav__preferences-calendar-subscriptions,
+.user-navigation .nav-pills > li.user-nav__preferences-navigation-menu,
+.ef-users-prefs-empty
+  .user-navigation
+  .nav-pills
+  > li.user-nav__preferences-users {
   display: none;
 }
 
