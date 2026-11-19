@@ -495,5 +495,21 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".topic-post .ef-post-date")
       expect(page).to have_css(".ef-quiet-action", visible: :all)
     end
+
+    # Closing a profile card puts focus back on the portrait, which used to
+    # scroll the post inside its box and hide the date bar
+    it "keeps a post in place after its profile card closes" do
+      reply = Fabricate(:post, topic: topic, user: user)
+      post_box = "#post_#{reply.post_number}"
+
+      visit topic.url
+      find("#{post_box} .main-avatar").click
+      expect(page).to have_css(".user-card.show")
+
+      page.send_keys(:escape)
+
+      expect(page).to have_no_css(".user-card.show")
+      expect(page.evaluate_script("document.querySelector('#{post_box}').scrollTop")).to eq(0)
+    end
   end
 end

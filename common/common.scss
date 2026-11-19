@@ -1690,7 +1690,11 @@ body.ef-hall-page #list-area {
       inset 0 0 0 3px var(--ef-panel-2),
       inset 0 0 0 4px var(--ef-frame-faint),
       0 24px 44px -22px #000;
-    overflow: hidden;
+
+    // clip, not hidden: a hidden-overflow box can still be scrolled by
+    // code, e.g. when focus goes back to the portrait after a profile card
+    // closes, which slid the date bar out of sight
+    overflow: clip;
   }
 
   .topic-post .post__row {
@@ -1713,12 +1717,16 @@ body.ef-hall-page #list-area {
   // Left panel: portrait on top, name block under it (same grid cell, pushed
   // down by a fixed margin so it never depends on the post's length)
   .topic-post .topic-avatar {
+    // Core makes it sticky with a fixed height, which ran 26px past the
+    // bottom of the post box; here it just fills the panel
+    position: static;
     grid-column: 1;
     grid-row: 1 / span 6;
     display: flex;
     justify-content: center;
     align-self: stretch;
     width: auto;
+    height: auto;
     margin: 0;
     padding: 26px 0 0;
     border: 0;
