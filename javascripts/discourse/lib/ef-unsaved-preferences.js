@@ -56,16 +56,66 @@ function read(user, attr) {
   return isOption(user, attr) ? user.user_option[attr] : user.get(attr);
 }
 
+// The page's values as they are now
+function values(page) {
+  const fields = new Map();
+  page.attrs.forEach((attr) =>
+    fields.set(attr, serialize(read(page.user, attr)))
+  );
+  const staged = serialize(STAGED[page.route]?.(page.controller));
+  return { fields, staged };
+}
+
+function sameValues(a, b) {
+  if (a.staged !== b.staged) {
+    return false;
+  }
+  for (const [attr, value] of a.fields) {
+    if (b.fields.get(attr) !== value) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// A save says it went through only by showing "Saved!" (the page's `saved`),
+// so the values are noted when Save Changes is pressed and become the
+// starting point once the page says Saved
+function settle(page) {
+  if (page.saving && page.controller.saved === true && !page.user.isSaving) {
+    page.start = page.saving;
+    page.saving = null;
+  }
+}
+
+function hasChanges(page) {
+  settle(page);
+  return !page.user.isSaving && !sameValues(values(page), page.start);
+}
+
+// Values held on the page are set again from the user when the page opens,
+// so only the user's own fields need putting back
+function revert(page) {
+  for (const [attr, value] of page.start.fields) {
+    if (value !== null && serialize(read(page.user, attr)) !== value) {
+      const old = JSON.parse(value);
+      if (isOption(page.user, attr)) {
+        page.user.set(`user_option.${attr}`, old);
+      } else {
+        page.user.set(attr, old);
+      }
+    }
+  }
+}
+
 export default function guardUnsavedPreferences(api) {
   const router = api.container.lookup("service:router");
   const dialog = api.container.lookup("service:dialog");
 
-  // The open preference page: its values as last loaded or saved
+  // The open preference page
   let open = null;
 
-  const staged = (state) => serialize(STAGED[state.route]?.(state.controller));
-
-  function snapshot(route) {
+  function openPage(route) {
     const controller = api.container.lookup(`controller:${route}`);
     const user = controller?.model;
     let attrs;
@@ -78,69 +128,16 @@ export default function guardUnsavedPreferences(api) {
       return null;
     }
 
-    const saved = new Map();
-    attrs
-      .filter((attr) => !IGNORED.has(attr))
-      .forEach((attr) => saved.set(attr, serialize(read(user, attr))));
-
-    const state = { route, controller, user, saved };
-    state.staged = staged(state);
-    return state;
+    const page = {
+      route,
+      controller,
+      user,
+      attrs: attrs.filter((attr) => !IGNORED.has(attr)),
+      saving: null,
+    };
+    page.start = values(page);
+    return page;
   }
-
-  function hasChanges(state) {
-    for (const [attr, value] of state.saved) {
-      if (serialize(read(state.user, attr)) !== value) {
-        return true;
-      }
-    }
-    return staged(state) !== state.staged;
-  }
-
-  // Values held on the page are set again from the user when the page opens,
-  // so only the user's own fields need putting back
-  function revert(state) {
-    for (const [attr, value] of state.saved) {
-      if (value !== null && serialize(read(state.user, attr)) !== value) {
-        const old = JSON.parse(value);
-        if (isOption(state.user, attr)) {
-          state.user.set(`user_option.${attr}`, old);
-        } else {
-          state.user.set(attr, old);
-        }
-      }
-    }
-  }
-
-  // After a save, what was saved is the new starting point. Other saves
-  // (a user tip being dismissed...) only move the fields they sent.
-  function afterSave(user, fields) {
-    if (open?.user !== user) {
-      return;
-    }
-    const attrs = [...open.saved.keys()];
-    for (const attr of attrs) {
-      if (!fields || fields.includes(attr)) {
-        open.saved.set(attr, serialize(read(user, attr)));
-      }
-    }
-    if (!fields || attrs.every((attr) => fields.includes(attr))) {
-      open.staged = staged(open);
-    }
-  }
-
-  api.modifyClass(
-    "model:user",
-    (Superclass) =>
-      class extends Superclass {
-        save(fields) {
-          return super.save(...arguments).then((result) => {
-            afterSave(this, fields);
-            return result;
-          });
-        }
-      }
-  );
 
   // Taken after the page has drawn, so values its fields fill in on their
   // own aren't mistaken for the player's changes
@@ -153,20 +150,39 @@ export default function guardUnsavedPreferences(api) {
     if (route?.startsWith("preferences.")) {
       schedule("afterRender", () => {
         if (router.currentRouteName === route) {
-          open = snapshot(route);
+          open = openPage(route);
         }
       });
     }
   });
 
+  // Save Changes: an earlier save that went through is settled first, then
+  // the values are noted once the page's save has started (and copied what
+  // it holds into the user)
+  document.addEventListener(
+    "click",
+    (event) => {
+      const page = open;
+      if (!page || !event.target.closest?.(".save-changes")) {
+        return;
+      }
+      settle(page);
+      setTimeout(() => {
+        if (open === page) {
+          page.saving = values(page);
+        }
+      });
+    },
+    true
+  );
+
   router.on("routeWillChange", (transition) => {
-    const state = open;
+    const page = open;
     if (
-      !state ||
+      !page ||
       transition.isAborted ||
-      transition.to?.name === state.route ||
-      state.user.isSaving ||
-      !hasChanges(state)
+      transition.to?.name === page.route ||
+      !hasChanges(page)
     ) {
       return;
     }
@@ -180,7 +196,7 @@ export default function guardUnsavedPreferences(api) {
           label: "Discard changes",
           class: "btn-danger ef-discard-changes",
           action: () => {
-            revert(state);
+            revert(page);
             open = null;
             transition.retry();
           },
@@ -193,7 +209,7 @@ export default function guardUnsavedPreferences(api) {
   // Closing the tab, reloading, or following a link out of the forum: the
   // browser asks with its own message
   window.addEventListener("beforeunload", (event) => {
-    if (open && !open.user.isSaving && hasChanges(open)) {
+    if (open && hasChanges(open)) {
       event.preventDefault();
       event.returnValue = true;
     }
