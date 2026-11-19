@@ -98,6 +98,26 @@ export default apiInitializer((api) => {
   // Preference pages ask before the player leaves with unsaved changes
   guardUnsavedPreferences(api);
 
+  // The Users tab in preferences holds Ignored, Muted and the message
+  // choices, each shown only to those allowed to use it, so a new player's
+  // is empty. Its tab is hidden then (see "Preference pages" in
+  // common.scss). Read from the profile the pages show, as the tab's page
+  // does.
+  router.on("routeDidChange", (transition) => {
+    let route = transition?.to;
+    while (route && route.name !== "preferences") {
+      route = route.parent;
+    }
+    const user = route?.attributes;
+    document.body.classList.toggle(
+      "ef-users-prefs-empty",
+      !!user &&
+        !user.can_ignore_users &&
+        !user.can_mute_users &&
+        !user.can_send_private_messages
+    );
+  });
+
   // Each hall's color, and its icon in place of the colored square wherever
   // the hall's category is named (breadcrumbs, topic lists, the composer's
   // category picker...). Its subcategories drop the half-and-half parent

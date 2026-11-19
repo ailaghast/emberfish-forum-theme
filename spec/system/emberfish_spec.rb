@@ -385,8 +385,52 @@ RSpec.describe "Emberfish theme" do
     end
   end
 
+  describe "preference pages" do
+    # Messages are staff-only on the forum
+    before { SiteSetting.personal_message_enabled_groups = Group::AUTO_GROUPS[:staff] }
+
+    it "hides the Calendar and Navigation menu tabs, and Users when it would be empty" do
+      newcomer = Fabricate(:user, trust_level: TrustLevel[0])
+      sign_in(newcomer)
+      visit "/u/#{newcomer.username}/preferences/account"
+
+      expect(page).to have_css(".user-nav__preferences-interface")
+      expect(page).to have_no_css(".user-nav__preferences-calendar-subscriptions")
+      expect(page).to have_no_css(".user-nav__preferences-navigation-menu")
+      expect(page).to have_no_css(".user-nav__preferences-users")
+    end
+
+    it "shows the Users tab once there is something in it" do
+      member = Fabricate(:user, trust_level: TrustLevel[1])
+      sign_in(member)
+      visit "/u/#{member.username}/preferences/account"
+      find(".user-nav__preferences-users a").click
+
+      expect(page).to have_css("[data-setting-name='user-muted-users']")
+    end
+
+    it "hides the options players don't need" do
+      sign_in(user)
+
+      visit "/u/#{user.username}/preferences/interface"
+      expect(page).to have_css("[data-setting-name='user-text-size']")
+      expect(page).to have_css("[data-setting-name='user-external-links']")
+      expect(page).to have_no_css("[data-setting-name='user-home']")
+      expect(page).to have_no_css("[data-setting-name='user-send-shortcut']")
+      expect(page).to have_no_css("[data-setting-name='user-dynamic-favicon']")
+
+      visit "/u/#{user.username}/preferences/emails"
+      expect(page).to have_css("[data-setting-name='user-email-digests']")
+      expect(page).to have_no_css("[data-setting-name='user-email-in-reply-to']")
+
+      visit "/u/#{user.username}/preferences/notifications"
+      expect(page).to have_css("[data-setting-name='user-like-notification-frequency']")
+      expect(page).to have_no_css("[data-setting-name='user-notification-schedule']")
+    end
+  end
+
   describe "unsaved preferences" do
-    let(:checkbox) { "[data-setting-name='user-email-in-reply-to'] input[type='checkbox']" }
+    let(:checkbox) { "[data-setting-name='user-email-digests'] input[type='checkbox']" }
     let(:emails_path) { "/u/#{user.username}/preferences/emails" }
     let(:account_path) { "/u/#{user.username}/preferences/account" }
 
@@ -397,7 +441,7 @@ RSpec.describe "Emberfish theme" do
     end
 
     it "asks before leaving, and puts the old value back on Discard" do
-      before_value = user.user_option.email_in_reply_to
+      before_value = user.user_option.email_digests
       find(checkbox).click
       find(".user-nav__preferences-account a").click
 
@@ -413,11 +457,11 @@ RSpec.describe "Emberfish theme" do
       find(".user-nav__preferences-emails a").click
       expect(page).to have_current_path(emails_path)
       expect(find(checkbox).checked?).to eq(before_value)
-      expect(user.user_option.reload.email_in_reply_to).to eq(before_value)
+      expect(user.user_option.reload.email_digests).to eq(before_value)
     end
 
     it "lets the player leave after Save Changes" do
-      before_value = user.user_option.email_in_reply_to
+      before_value = user.user_option.email_digests
       find(checkbox).click
       find(".save-changes").click
       expect(page).to have_css(".saved")
@@ -425,7 +469,7 @@ RSpec.describe "Emberfish theme" do
       find(".user-nav__preferences-account a").click
       expect(page).to have_current_path(account_path)
       expect(page).to have_no_css(".dialog-body")
-      expect(user.user_option.reload.email_in_reply_to).to eq(!before_value)
+      expect(user.user_option.reload.email_digests).to eq(!before_value)
     end
 
     it "lets the player leave a page they didn't change" do

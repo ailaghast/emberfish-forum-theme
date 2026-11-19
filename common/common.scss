@@ -2308,6 +2308,55 @@ body.ef-hall-page #list-area {
   }
 }
 
+// ---------- Preference pages ----------
+
+// Tabs and options that do nothing on this forum, or that almost no player
+// would change. Hidden in the interface only: each keeps its default (or what
+// a player saved before), and a hidden tab still opens from its address.
+// - Calendar: links for calendar apps, for forum events (off here) and
+//   bookmark reminders.
+// - Navigation menu: how the menu's category and tag links behave, and the
+//   theme hides those lists (see Navigation menu, below).
+// - Users: only when it would be empty (body class set in the initializer).
+//   Muted shows from trust level 1, Ignored from trust level 2, and the
+//   message choices only to those who can send messages (staff here).
+.user-nav__preferences-calendar-subscriptions,
+.user-nav__preferences-navigation-menu,
+.ef-users-prefs-empty .user-nav__preferences-users {
+  display: none;
+}
+
+// Emails: previous replies and the replied-to excerpt in emails, and new
+// users' posts in the activity summary
+.user-preferences [data-setting-name="user-email-previous-replies"],
+.user-preferences [data-setting-name="user-email-in-reply-to"],
+.user-preferences [data-setting-name="user-include-tl0-in-digests"] {
+  display: none;
+}
+
+// Notifications: links to my posts, and the do-not-disturb schedule
+.user-preferences [data-setting-name="user-notify-on-linked-posts"],
+.user-preferences [data-setting-name="user-notification-schedule"] {
+  display: none;
+}
+
+// Interface: Default Home Page (any choice but Default skips the lobby), the
+// chat-style send key (chat is off), the onboarding tips switch (tips are off
+// for the whole forum; show it again if they're turned on), and the
+// fine-tuning under Other
+.user-preferences [data-setting-name="user-home"],
+.user-preferences [data-setting-name="user-send-shortcut"],
+.user-preferences [data-setting-name="user-new-user-tips"],
+.user-preferences [data-setting-name="user-enable-quoting"],
+.user-preferences [data-setting-name="user-enable-smart-lists"],
+.user-preferences [data-setting-name="user-auto-unpin"],
+.user-preferences [data-setting-name="user-dynamic-favicon"],
+.user-preferences [data-setting-name="user-enable-markdown-monospace-font"],
+.user-preferences [data-setting-name="user-page-title"],
+.user-preferences [data-setting-name="user-bookmark-after-notification"] {
+  display: none;
+}
+
 // ---------- Footer credit ----------
 
 // Core's badge sits between the content and the footer. The theme shows
