@@ -1697,7 +1697,11 @@ body.ef-hall-page #list-area {
     overflow: clip;
   }
 
-  .topic-post .post__row {
+  // Only the author + post row. Discourse wraps a post notice ("first time
+  // X has posted") and expanded replies-above in rows of their own, which
+  // got the grid too: the notice was squeezed into the author column over
+  // an empty 230px row
+  .topic-post .post__row:has(> .topic-avatar) {
     display: grid;
     grid-template-columns: var(--ef-side) minmax(0, 1fr);
     grid-template-rows: auto 1fr;
@@ -1855,6 +1859,47 @@ body.ef-hall-page #list-area {
       padding: 0;
       font-size: 17px;
       line-height: 1.55;
+    }
+  }
+
+  // Post notices (new member, returning member, staff note): a strip across
+  // the top of the post box, inside its frame
+  .topic-post .post-notice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: none;
+    margin: 4px 4px 0;
+    padding: 10px 22px;
+    border: 0;
+    border-bottom: 1px solid var(--ef-frame-faint);
+
+    // Opaque base, so the author panel's divider doesn't show through
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--ef-orange) 14%, transparent),
+        color-mix(in srgb, var(--ef-orange) 4%, transparent)
+      ),
+      var(--ef-panel-2);
+    color: var(--ef-txt-2);
+    font-size: 15.5px;
+    font-style: italic;
+    line-height: 1.4;
+
+    > p {
+      margin: 0;
+    }
+
+    img.emoji {
+      flex: none;
+      width: 20px;
+      height: 20px;
+    }
+
+    .d-icon {
+      flex: none;
+      color: var(--ef-accent);
     }
   }
 

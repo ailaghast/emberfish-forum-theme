@@ -496,6 +496,22 @@ RSpec.describe "Emberfish theme" do
       expect(page).to have_css(".ef-quiet-action", visible: :all)
     end
 
+    # Discourse puts a post notice in a row of its own above the post, which
+    # used to get the post's grid: the notice sat in the author column over a
+    # tall empty band
+    it "shows a new member's notice as a slim strip above the post" do
+      first_post = topic.first_post
+      first_post.custom_fields[Post::NOTICE] = { type: Post.notices[:new_user] }
+      first_post.save_custom_fields
+      sign_in(admin)
+
+      visit topic.url
+
+      expect(page).to have_css("#post_1 .post-notice.new-user")
+      notice_row = "document.querySelector('#post_1 .post-notice').parentElement"
+      expect(page.evaluate_script("#{notice_row}.offsetHeight")).to be < 100
+    end
+
     # Closing a profile card puts focus back on the portrait, which used to
     # scroll the post inside its box and hide the date bar
     it "keeps a post in place after its profile card closes" do
