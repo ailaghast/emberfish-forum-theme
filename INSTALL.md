@@ -14,11 +14,15 @@ The step-by-step setup, install included, is in `../forum-setup.md` (steps 4 and
 - **Posts:** classic author panel on the left on desktop, full date in the post's top bar, Staff tag.
 - Players who open /categories land on the lobby. Staff can still use it.
 
-## Two color palettes
+## One look, no light/dark mode
 
-The theme comes with two palettes, and the one picked on the theme page (**Color palette** and **Dark color palette**, set both the same) is the look of the whole forum:
+The theme comes with two palettes. The forum uses one of them, the same for everyone. On the theme page, set **Color palette** and **Dark color palette** to the **same** palette:
+- **Emberfish Slate** (in use): cool slate-grey panels, duller gold frames and softer button glow (from how the forum looked under the Dark Reader extension). The buttons follow the palette by its stylesheet's name, so keep the palette's name as it is.
 - **Emberfish Ashen Gate**: warm near-black panels with bright gold frames (the original).
-- **Emberfish Slate**: cool slate-grey panels, duller gold frames and softer button glow (from how the forum looked under the Dark Reader extension). The buttons follow the palette by its stylesheet's name, so keep the palette's name as it is.
+
+Same palette in both = no light/dark mode: Discourse loads one palette and drops the **Color Palette → Mode** menu from players' interface preferences. If the two differ, the menu comes back, and players whose computer is in dark mode get the Dark color palette without picking it. The two looks are too close to be worth offering as a choice (decided 2026-11-18).
+
+Each installed theme gets its own copy of both palettes (same names). Pick the copy that belongs to the theme you're setting, so updating or removing one theme never takes the other's palette with it.
 
 The theme takes its page, panel and frame colors from the palette (secondary = page, hover = lightest panel, highlight = frame gold), so a palette edit in Admin → Color palettes changes the theme too.
 
